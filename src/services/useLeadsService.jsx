@@ -1,7 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import axiosInstance from "./axiosInstance";
 import {
-  setIsEditingLead,
   setIsLeadsLoading,
   setLeadData,
   setLeads,
@@ -11,9 +10,11 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router";
 
 function useLeadsService() {
-  const { search, page, limit } = useSelector((state) => state.leads);
+  const { search, page, limit, leads } = useSelector((state) => state.leads);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const fetchLeads = async () => {
     try {
       const result = await axiosInstance.get(`/leads/p`, {
@@ -104,7 +105,8 @@ function useLeadsService() {
           `Successfully  ${isDispose ? "undisposed" : "disposed"} leads`
         );
       }
-
+      const filtered = leads.filter((l) => l._id !== id);
+      dispatch(setLeads(filtered));
       return result.data;
     } catch (error) {
       console.error("error while dispose leads", error);

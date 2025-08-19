@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import useAgentService from "../../services/useAgentService";
 import { useDispatch, useSelector } from "react-redux";
 import { setLeadsFormData } from "../../store/leadsSlice";
 import useLeadsService from "../../services/useLeadsService";
@@ -12,11 +11,29 @@ const AddLead = () => {
   const { addNewLeads } = useLeadsService();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    dispatch(setLeadsFormData({ ...leadsFormData, [name]: value }));
+
+    if (name.startsWith("propertyRequirement.")) {
+      const key = name.split(".")[1];
+      dispatch(
+        setLeadsFormData({
+          ...leadsFormData,
+          propertyRequirement: {
+            ...leadsFormData.propertyRequirement,
+            [key]: value,
+          },
+        })
+      );
+    } else {
+      dispatch(setLeadsFormData({ ...leadsFormData, [name]: value }));
+    }
   };
+
+  // const handleInputChange = (e) => {
+  //   const { name, value } = e.target;
+  //   dispatch(setLeadsFormData({ ...leadsFormData, [name]: value }));
+  // };
 
   const handlePropertySelect = (propertyId) => {
     dispatch(

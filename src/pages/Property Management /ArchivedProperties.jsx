@@ -2,6 +2,7 @@ import { useCallback, useEffect } from "react";
 import {
   setPropertiesPage,
   setPropertiesSearch,
+  setStatusFilter,
 } from "../../store/propertiesSlice";
 import { useDispatch, useSelector } from "react-redux";
 import TableFrame from "../../components/table/TableFrame";
@@ -10,17 +11,23 @@ import TableCell from "../../components/table/TableCell";
 import PaginationControls from "../../components/table/PaginationControls";
 import CommonInput from "../../components/input/CommonInput";
 import usePropertiesService from "../../services/usePropertiesService";
+import useIcon from "../../hooks/useIcon";
+import CommonSelect from "../../components/input/CommonSelect";
+import LinkBtn from "../../components/buttons/LinkBtn";
 
-function PropertyTable() {
+function ArchivedProperties() {
   const dispatch = useDispatch();
 
   const {
     properties = [],
     search,
+    statusFilter,
     page,
     totalPropertiesPage,
   } = useSelector((state) => state.properties);
-  const { fetchProperties } = usePropertiesService();
+  const { fetchArchivedProperties } = usePropertiesService();
+  const icons = useIcon();
+
   const columns = [
     { title: <input type="checkbox" />, key: "selector" },
     { title: "Title", key: "title" },
@@ -31,9 +38,11 @@ function PropertyTable() {
     { title: "Status", key: "status" },
     { title: "Action", key: "action" },
   ];
+
   useEffect(() => {
-    fetchProperties();
-  }, [search, page]);
+    fetchArchivedProperties();
+  }, [search, page, statusFilter]);
+
   const handlePrevPage = useCallback(() => {
     if (page > 1) dispatch(setPropertiesPage(page - 1));
   }, [page, dispatch]);
@@ -46,17 +55,25 @@ function PropertyTable() {
     <div className="space-y-3 w-full border-inherit">
       {/* Header */}
       <div className="rounded-lg border p-6 mb-6 border-inherit">
-        <div className="flex justify-between items-center w-full">
+        <div className="flex justify-between items-center w-full border-inherit">
           <h2 className="text-xl font-medium text-gray-900">
             Total {properties.length} leads found
           </h2>
-
-          <CommonInput
-            type="search"
-            placeholder="Search"
-            value={search}
-            onChange={(e) => dispatch(setPropertiesSearch(e.target.value))}
-          />
+          <div className="flex justify-center items-center gap-3">
+            <CommonInput
+              type="search"
+              placeholder="Search"
+              value={search}
+              onChange={(e) => dispatch(setPropertiesSearch(e.target.value))}
+            />
+            <CommonSelect
+              className
+              name={"status"}
+              value={statusFilter}
+              options={["available", "under-offer", "sold", "rented"]}
+              onChange={(e) => dispatch(setStatusFilter(e.target.value))}
+            />
+          </div>
         </div>
       </div>
 
@@ -70,13 +87,18 @@ function PropertyTable() {
                   <TableCell>
                     <input type="checkbox" />
                   </TableCell>
-                  <TableCell>{property.title}</TableCell>
+                  <TableCell>
+                    <LinkBtn stub={"property/details/" + property._id}>
+                      {" "}
+                      {property.title}
+                    </LinkBtn>
+                  </TableCell>
                   <TableCell>{property.listingType}</TableCell>
                   <TableCell>{property.category}</TableCell>
                   <TableCell>{property.location}</TableCell>
                   <TableCell>{property.price}</TableCell>
                   <TableCell>{property.status}</TableCell>
-                  <TableCell>{/* Action buttons or dropdown here */}</TableCell>
+                  <TableCell></TableCell>
                 </TableRow>
               ))
             ) : (
@@ -102,4 +124,4 @@ function PropertyTable() {
   );
 }
 
-export default PropertyTable;
+export default ArchivedProperties;

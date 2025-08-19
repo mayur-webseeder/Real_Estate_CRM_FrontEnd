@@ -4,7 +4,7 @@ import TableRow from "../../components/table/TableRow";
 import useLeadsService from "../../services/useLeadsService";
 import PaginationControls from "../../components/table/PaginationControls";
 import { useDispatch, useSelector } from "react-redux";
-import { setLeadPage } from "../../store/leadsSlice";
+import { setLeadPage, setLeads } from "../../store/leadsSlice";
 import TableCell from "../../components/table/TableCell";
 import CommonBtn from "../../components/buttons/CommonBtn";
 import useIcon from "../../hooks/useIcon";
@@ -75,7 +75,7 @@ function DisposedLeadsList() {
                     <CommonBtn
                       action={() => handelDisposeLead(lead._id, lead.isDispose)}
                       className={"text-green-500 w-fit rounded-lg "}
-                      tooltip="undispose"
+                      tooltip="restore"
                     >
                       {icons["disposeOut"]}
                     </CommonBtn>

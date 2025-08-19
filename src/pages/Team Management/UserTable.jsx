@@ -2,17 +2,17 @@ import React, { useEffect, useMemo } from "react";
 import TableRow from "../../components/table/TableRow";
 import TableFrame from "../../components/table/TableFrame";
 import TableCell from "../../components/table/TableCell";
-import useAgentService from "../../services/useAgentService";
+import useTeamService from "../../services/useTeamService";
 import { useSelector, useDispatch } from "react-redux";
-import { setPage, setSearch } from "../../store/agentSlice";
+import { setPage, setSearch } from "../../store/teamSlice";
 import PaginationControls from "../../components/table/PaginationControls";
 import CommonInput from "../../components/input/CommonInput";
 
 function UserTable() {
   const dispatch = useDispatch();
-  const { fetchAgents } = useAgentService();
+  const { fetchAgents } = useTeamService();
   const { agents, page, totalPages, search } = useSelector(
-    (state) => state.agent
+    (state) => state.team
   );
 
   // Fetch when page or search changes

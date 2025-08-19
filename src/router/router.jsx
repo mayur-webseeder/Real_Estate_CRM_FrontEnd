@@ -10,14 +10,19 @@ import CompanyRegistration from "../pages/Auth/CompanyRegistration";
 import UserTable from "../pages/Team Management/UserTable";
 import Layout from "../layout/Layout";
 import AddNewUser from "../pages/Team Management/AddNewUser";
-import PropertyTabel from "../pages/Property Management /PropertyTabel";
 import AddProperty from "../pages/Property Management /AddProperty";
 import UserProfile from "../pages/Auth/UserProfile";
 import LeadProfile from "../pages/Leads Management/LeadProfile";
 import DisposedLeadsList from "../pages/Leads Management/DiposedLeadsList";
 import LeadsList from "../pages/Leads Management/LeadsList";
 import EditLead from "../pages/Leads Management/EditLead";
-
+import AddFollowUp from "../pages/Leads Management/AddFollowUp";
+import PropertyDetails from "../pages/Property Management /PropertyDetails";
+import PropertyList from "../pages/Property Management /PropertiesList";
+import ArchivedProperties from "../pages/Property Management /ArchivedProperties";
+import EditProperty from "../pages/Property Management /EditProperty";
+import Deals_Manager from "../pages/Deals_Management/Deals_Manager";
+import AddDeal from "../pages/Deals_Management/AddDeal";
 function Router() {
   return (
     <Routes>
@@ -91,6 +96,14 @@ function Router() {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="followup/:leadId"
+            element={
+              <ProtectedRoute>
+                <AddFollowUp />
+              </ProtectedRoute>
+            }
+          />
         </Route>
         <Route
           path="property_management"
@@ -104,7 +117,15 @@ function Router() {
             path=""
             element={
               <ProtectedRoute>
-                <PropertyTabel />
+                <PropertyList />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path=""
+            element={
+              <ProtectedRoute>
+                <ArchivedProperties />
               </ProtectedRoute>
             }
           />
@@ -113,6 +134,22 @@ function Router() {
             element={
               <ProtectedRoute>
                 <AddProperty />
+              </ProtectedRoute>
+            }
+          />{" "}
+          <Route
+            path="edit_property"
+            element={
+              <ProtectedRoute>
+                <EditProperty />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="property/details/:propertyId"
+            element={
+              <ProtectedRoute>
+                <PropertyDetails />
               </ProtectedRoute>
             }
           />
@@ -133,11 +170,29 @@ function Router() {
               </ProtectedRoute>
             }
           />
+
           <Route
             path="add_user"
             element={
               <ProtectedRoute>
                 <AddNewUser />
+              </ProtectedRoute>
+            }
+          />
+        </Route>
+        <Route
+          path="deals_management"
+          element={
+            <ProtectedRoute>
+              <Deals_Manager />
+            </ProtectedRoute>
+          }
+        >
+          <Route
+            path="create_deal/:leadId/:propertyId"
+            element={
+              <ProtectedRoute>
+                <AddDeal />
               </ProtectedRoute>
             }
           />

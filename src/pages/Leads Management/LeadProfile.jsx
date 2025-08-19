@@ -14,26 +14,26 @@ import {
 } from "lucide-react";
 import { getStageColor } from "../../utils/getStageColor";
 import { getStatusColor } from "../../utils/getStatusColor";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import useFolloupsService from "../../services/useFolloupsService";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  setFollowupOpen,
-  setLeadId,
-  setLeadsFormData,
-} from "../../store/leadsSlice";
+import { setLeadsFormData } from "../../store/leadsSlice";
 import CommonBtn from "../../components/buttons/CommonBtn";
 import LinkBtn from "../../components/buttons/LinkBtn";
 import useLeadsService from "../../services/useLeadsService";
 import { formatDate } from "../../utils/formatedDate";
+import useIcon from "../../hooks/useIcon";
 
 const LeadsProfile = () => {
   const { leadFolloups, lead } = useSelector((state) => state.leads);
   const { logedInUser } = useSelector((state) => state.auth);
   const { getFolloupsByLeadId } = useFolloupsService();
   const { fetchLeadById } = useLeadsService();
-  const dispatch = useDispatch();
   const { leadId } = useParams();
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const icons = useIcon();
   useEffect(() => {
     if (leadId) {
       getFolloupsByLeadId(leadId);
@@ -42,8 +42,7 @@ const LeadsProfile = () => {
   }, [leadId]);
 
   const handleAddFolloup = (id) => {
-    dispatch(setFollowupOpen());
-    dispatch(setLeadId(id));
+    navigate("/leads_management/followup/" + id);
   };
 
   return (
@@ -128,9 +127,9 @@ const LeadsProfile = () => {
               {lead?.interestedIn?.map((property) => (
                 <div
                   key={property._id}
-                  className="bg-white rounded-lg p-4 border border-gray-200"
+                  className="bg-white rounded-lg p-4 border border-gray-200 space-y-3"
                 >
-                  <div className="flex justify-between items-start">
+                  <div className="flex justify-between items-start ">
                     <div>
                       <h3 className="font-semibold text-gray-900">
                         {property.title}
@@ -140,6 +139,16 @@ const LeadsProfile = () => {
                     <span className="text-lg font-bold text-green-600">
                       {property.price}
                     </span>
+                  </div>
+                  <div className="flex justify-end items-center w-full ">
+                    <LinkBtn
+                      stub={`/deals_management/create_deal/${leadId}/${property._id}`}
+                      className={
+                        "flex items-center gap-2 text-blue-600 w-fit p-2"
+                      }
+                    >
+                      {icons["deal"]} Create deal
+                    </LinkBtn>
                   </div>
                 </div>
               ))}
@@ -249,7 +258,7 @@ const LeadsProfile = () => {
           </div>
 
           {/* Assigned Agent */}
-          {logedInUser.role == "agent" && (
+          {logedInUser?.role == "agent" && (
             <div className="bg-gray-50 rounded-xl p-6 text-start">
               <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
                 <Users className="w-5 h-5 mr-2 text-blue-600" />

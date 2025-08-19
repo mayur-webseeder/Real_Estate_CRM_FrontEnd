@@ -1,5 +1,7 @@
+import React from "react";
 import { Outlet } from "react-router";
-function LeadsManager() {
+
+function Deals_Manager() {
   return (
     <div className="w-full h-full border-inherit">
       <Outlet />
@@ -7,4 +9,4 @@ function LeadsManager() {
   );
 }
 
-export default LeadsManager;
+export default Deals_Manager;

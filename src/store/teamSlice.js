@@ -7,8 +7,8 @@ const initialState = {
   limit: 10,
   search: "",
 };
-const agentSlice = createSlice({
-  name: "agent",
+const teamSlice = createSlice({
+  name: "team",
   initialState,
   reducers: {
     setAllAgentLoading: (state, action) => {
@@ -35,5 +35,5 @@ export const {
   setTotalAgentPages,
   setPage,
   setSearch,
-} = agentSlice.actions;
-export default agentSlice.reducer;
+} = teamSlice.actions;
+export default teamSlice.reducer;

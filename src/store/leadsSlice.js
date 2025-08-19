@@ -17,7 +17,6 @@ const initialState = {
   page: 1,
   limit: 10,
   totalPages: 1,
-  isFollowupOpen: false,
   leadId: "",
   isLeadEditing: false,
   leadFolloups: [],
@@ -44,9 +43,6 @@ const leadsSlice = createSlice({
     setIsLeadsLoading: (state, action) => {
       state.isLeadLoading = action.payload;
     },
-    setFollowupOpen: (state, action) => {
-      state.isFollowupOpen = !state.isFollowupOpen;
-    },
     setLeadId: (state, action) => {
       state.leadId = action.payload;
     },
@@ -67,7 +63,6 @@ export const {
   setLeadsTotalPages,
   setLeadPage,
   setIsLeadsLoading,
-  setFollowupOpen,
   setLeadId,
   setIsEditingLead,
   setLeadFollowUps,

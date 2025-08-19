@@ -2,6 +2,9 @@ import { useState } from "react";
 import CommonInput from "../../components/input/CommonInput";
 import CommonSelect from "../../components/input/CommonSelect";
 import useIcon from "../../hooks/useIcon";
+import ToggleBtn from "../../components/buttons/ToggleBtn";
+import useTeamService from "../../services/useTeamService";
+import { toast } from "react-toastify";
 
 const initialFormState = {
   userName: "",
@@ -20,16 +23,12 @@ const AddNewUser = () => {
   const [formData, setFormData] = useState(initialFormState);
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
+  const { addNewUser } = useTeamService();
   const icons = useIcon();
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     const val = type === "checkbox" ? checked : value;
     setFormData({ ...formData, [name]: val });
-
-    // Clear error when user starts typing
-    if (errors[name]) {
-      setErrors({ ...errors, [name]: "" });
-    }
   };
 
   const validate = () => {
@@ -52,10 +51,9 @@ const AddNewUser = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const validationErrors = validate();
-    setErrors(validationErrors);
+    toast.error(validationErrors);
     if (Object.keys(validationErrors).length > 0) return;
-
-    setLoading(true);
+    await addNewUser(formData);
   };
 
   const roleOptions = [
@@ -63,7 +61,6 @@ const AddNewUser = () => {
     { value: "manager", label: "Manager" },
     { value: "admin", label: "Admin" },
   ];
-
   return (
     <>
       {/* Header */}
@@ -200,36 +197,19 @@ const AddNewUser = () => {
           <div className="text-start">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">Status</h3>
             <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-lg">
-              <div className="relative">
-                <input
-                  type="checkbox"
-                  id="active"
-                  name="active"
-                  checked={formData.active}
-                  onChange={handleChange}
-                  className="sr-only"
-                />
-                <div
-                  onClick={() =>
-                    handleChange({
-                      target: {
-                        name: "active",
-                        type: "checkbox",
-                        checked: !formData.active,
-                      },
-                    })
-                  }
-                  className={`w-12 h-6 rounded-full cursor-pointer transition-colors ${
-                    formData.active ? "bg-green-500" : "bg-gray-300"
-                  }`}
-                >
-                  <div
-                    className={`w-5 h-5 bg-white rounded-full shadow-md transform transition-transform ${
-                      formData.active ? "translate-x-6" : "translate-x-0.5"
-                    } mt-0.5`}
-                  />
-                </div>
-              </div>
+              <ToggleBtn
+                isOn={formData.active}
+                onToggle={() =>
+                  handleChange({
+                    target: {
+                      name: "active",
+                      type: "checkbox",
+                      checked: !formData.active,
+                    },
+                  })
+                }
+              />
+
               <div>
                 <label
                   htmlFor="active"

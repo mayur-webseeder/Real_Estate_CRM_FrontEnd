@@ -1,15 +1,20 @@
 import { toast } from "react-toastify";
 import {
+  setIsSubmitting,
   setProperties,
+  setProperty,
   setTotalPropertiesPage,
 } from "../store/propertiesSlice";
 import axiosInstance from "./axiosInstance";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router";
 function usePropertiesService() {
-  const { search, page, maxPrice, minPrice } = useSelector(
+  const { search, page, maxPrice, minPrice, statusFilter } = useSelector(
     (state) => state.properties
   );
   const dispatch = useDispatch();
+  const nevigate = useNavigate();
+
   const fetchProperties = async () => {
     try {
       const response = await axiosInstance.get(`/properties/p`, {
@@ -18,30 +23,130 @@ function usePropertiesService() {
           page,
           maxPrice,
           minPrice,
+          statusFilter,
         },
       });
       dispatch(setProperties(response.data.properties));
       dispatch(setTotalPropertiesPage(response.data.totalPages));
     } catch (error) {
       console.error(error);
+      throw error;
     }
   };
-  const addNewProperty = async (formData) => {
+  const fetchArchivedProperties = async () => {
     try {
-      const result = await axiosInstance.post(`/properties/create`, formData, {
+      const response = await axiosInstance.get(`/properties/archived/p`, {
+        params: {
+          search,
+          page,
+          maxPrice,
+          minPrice,
+          statusFilter,
+        },
+      });
+      dispatch(setProperties(response.data.properties));
+      dispatch(setTotalPropertiesPage(response.data.totalPages));
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  };
+
+  const fetchPropertyById = async (id) => {
+    try {
+      const response = await axiosInstance.get(`/properties/property/${id}`);
+      dispatch(setProperty(response.data));
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  };
+
+  const addNewProperty = async (formData) => {
+    const data = new FormData();
+    Object.keys(formData).forEach((key) => {
+      if (key === "images") {
+        formData.images.forEach((file) => {
+          data.append("images", file);
+        });
+      } else {
+        data.append(key, formData[key]);
+      }
+    });
+
+    dispatch(setIsSubmitting(true));
+
+    try {
+      const result = await axiosInstance.post(`/properties/create`, data, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
       toast.success("Property added successfully!");
+      nevigate(-1);
       return result;
     } catch (error) {
       console.error(error);
       toast.error("Error occured while adding property");
       throw error;
+    } finally {
+      dispatch(setIsSubmitting(false));
     }
   };
-  return { fetchProperties, addNewProperty };
+
+  const editProperty = async (id, formData) => {
+    const data = new FormData();
+
+    Object.keys(formData).forEach((key) => {
+      if (key === "images") {
+        formData.images.forEach((img) => {
+          if (typeof img === "string") {
+            // If it's a URL, send it directly (as string, not file)
+
+            data.append("existingImages", img);
+          } else {
+            // If it's a File, append for upload
+            data.append("newImages", img);
+          }
+        });
+      } else {
+        data.append(key, formData[key]);
+      }
+    });
+
+    dispatch(setIsSubmitting(true));
+
+    try {
+      const result = await axiosInstance.put(`/properties/edit/${id}`, data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      toast.success("Property updated successfully!");
+      nevigate(-1);
+      return result;
+    } catch (error) {
+      console.error(error);
+      toast.error("Error occurred while updating property");
+      throw error;
+    } finally {
+      dispatch(setIsSubmitting(false));
+    }
+  };
+
+  const deleteProper = async () => {
+    try {
+    } catch (error) {
+      throw error;
+    }
+  };
+  return {
+    fetchProperties,
+    addNewProperty,
+    editProperty,
+    fetchPropertyById,
+    fetchArchivedProperties,
+  };
 }
 
 export default usePropertiesService;

@@ -2,23 +2,14 @@ import React, { useState } from "react";
 import usePropertiesService from "../../services/usePropertiesService";
 
 import PropertyFormModel from "./components/PropertyFormModel";
+import { useLocation } from "react-router";
 
-function AddProperty() {
-  const [formData, setFormData] = useState({
-    title: "",
-    listingType: "sale",
-    category: "",
-    description: "",
-    location: "",
-    price: "",
-    area: "",
-    unit: "",
-    amenities: "",
-    status: "available",
-    images: [],
-  });
-
-  const { addNewProperty } = usePropertiesService();
+function EditProperty() {
+  const {
+    state: { listedBy, ...property },
+  } = useLocation();
+  const [formData, setFormData] = useState(property);
+  const { editProperty } = usePropertiesService();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -32,7 +23,7 @@ function AddProperty() {
     const files = Array.from(e.target.files);
     setFormData((prev) => ({
       ...prev,
-      images: files,
+      images: [...formData.images, ...files],
     }));
   };
 
@@ -45,9 +36,8 @@ function AddProperty() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await addNewProperty(formData);
+    await editProperty(property._id, formData);
   };
-
   return (
     <PropertyFormModel
       removeImage={removeImage}
@@ -60,4 +50,4 @@ function AddProperty() {
   );
 }
 
-export default AddProperty;
+export default EditProperty;

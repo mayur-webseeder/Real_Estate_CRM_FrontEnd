@@ -10,7 +10,7 @@ const CommonInput = ({
   className = "",
 }) => {
   return (
-    <div className="flex flex-col items-start gap-2  border-inherit">
+    <div className="flex flex-col items-start gap-2 w-full  border-inherit">
       {label && (
         <label
           htmlFor={name}

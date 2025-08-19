@@ -1,64 +1,69 @@
 import {
-  MdDewPoint,
-  MdHelpCenter,
+  MdClose,
   MdHelpOutline,
   MdHome,
   MdLogout,
-  MdMail,
   MdMailOutline,
-  MdMessage,
+  MdOutlineDateRange,
   MdOutlineMoveDown,
   MdOutlineMoveUp,
   MdOutlineSettings,
   MdOutlineSupportAgent,
-  MdSettings,
   MdSpaceDashboard,
+  MdUnarchive,
 } from "react-icons/md";
+import { FaLandmark, FaUsers, FaSpinner, FaIdeal } from "react-icons/fa6";
 import {
-  FaBell,
-  FaLandmark,
-  FaLocationPin,
-  FaMapPin,
-  FaUser,
-  FaUsers,
-  FaUsersLine,
-} from "react-icons/fa6";
-import {
+  BsArchive,
   BsBell,
-  BsDot,
   BsEye,
   BsLayoutTextSidebarReverse,
   BsPhone,
+  BsPlus,
   BsSave,
   BsShield,
 } from "react-icons/bs";
-import { LuDot, LuPointer, LuUser, LuUserPlus } from "react-icons/lu";
-import { FiEyeOff, FiMapPin, FiTrendingUp, FiUser } from "react-icons/fi";
+import { LuDot, LuUserPlus } from "react-icons/lu";
+import {
+  FiEdit,
+  FiEyeOff,
+  FiFileText,
+  FiMapPin,
+  FiTrendingUp,
+  FiUser,
+} from "react-icons/fi";
 import { MdContactEmergency, MdDeleteOutline } from "react-icons/md";
 import { RiChatFollowUpLine } from "react-icons/ri";
-import { CircleDot } from "lucide-react";
-import { RxCrumpledPaper } from "react-icons/rx";
+import { LuCloudUpload } from "react-icons/lu";
+import { ImClock, ImSpinner6 } from "react-icons/im";
+import { TbArchive, TbArchiveOff } from "react-icons/tb";
+import { CiEdit } from "react-icons/ci";
 const useIcon = () => {
   return {
     // A
-    // --
     agent: <MdOutlineSupportAgent />,
+    archive: <TbArchive />,
+    unarchive: <TbArchiveOff />,
     // B
     bell: <BsBell />,
 
     // C
     contact: <MdContactEmergency />,
-
+    close: <MdClose />,
+    clock: <ImClock />,
+    calender: <MdOutlineDateRange />,
     // D
-    // --
+
     dashboardFi: <MdSpaceDashboard />,
     delete: <MdDeleteOutline />,
     disposeIn: <MdOutlineMoveDown />,
     disposeOut: <MdOutlineMoveUp />,
+    deal: <FaIdeal />,
 
     // E
     eyeOff: <FiEyeOff />,
     eye: <BsEye />,
+    edit: <CiEdit />,
 
     // F
     followup: <RiChatFollowUpLine />,
@@ -88,7 +93,7 @@ const useIcon = () => {
     mail: <MdMailOutline />,
 
     // N
-    // --
+    note: <FiFileText />,
 
     // O
     // --
@@ -97,6 +102,7 @@ const useIcon = () => {
     property: <FaLandmark />,
     point: <LuDot />,
     phone: <BsPhone />,
+    plus: <BsPlus />,
     // Q
     // --
 
@@ -108,6 +114,8 @@ const useIcon = () => {
     settings: <MdOutlineSettings />,
     shield: <BsShield />,
     save: <BsSave />,
+    spinner1: <FaSpinner className=" animate-spin" />,
+    spinner2: <ImSpinner6 className=" animate-spin" />,
 
     // T
     trendingUp: <FiTrendingUp />,
@@ -115,6 +123,7 @@ const useIcon = () => {
     // U
     user: <FiUser />,
     userPlus: <LuUserPlus />,
+    upload: <LuCloudUpload />,
 
     // V
     // --

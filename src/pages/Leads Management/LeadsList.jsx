@@ -4,23 +4,19 @@ import TableRow from "../../components/table/TableRow";
 import useLeadsService from "../../services/useLeadsService";
 import PaginationControls from "../../components/table/PaginationControls";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  setFollowupOpen,
-  setLeadId,
-  setLeadPage,
-} from "../../store/leadsSlice";
+import { setLeadPage } from "../../store/leadsSlice";
 import TableCell from "../../components/table/TableCell";
 import LinkBtn from "../../components/buttons/LinkBtn";
 import CommonBtn from "../../components/buttons/CommonBtn";
 import useIcon from "../../hooks/useIcon";
-import AddFollowUpPopup from "./AddFollowUp";
-import { useLocation } from "react-router";
+import { useNavigate } from "react-router";
 function LeadsList() {
   const { fetchLeads, toggelDisposeLead } = useLeadsService();
   const { leads, search, page, limit, totalPages } = useSelector(
     (state) => state.leads
   );
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const icons = useIcon();
   const leadsColumn = useMemo(
     () => [
@@ -47,8 +43,7 @@ function LeadsList() {
   }, []);
 
   const handleAddFolloup = (id) => {
-    dispatch(setFollowupOpen());
-    dispatch(setLeadId(id));
+    navigate("followup/" + id);
   };
   const handelDisposeLead = (id, isDispose) => {
     toggelDisposeLead({ id, isDispose });
@@ -73,7 +68,15 @@ function LeadsList() {
                 <TableCell>
                   <input type="checkbox" />
                 </TableCell>
-                <TableCell>{lead.name}</TableCell>
+                <TableCell>
+                  <LinkBtn
+                    stub={`lead/profile/${lead?._id}`}
+                    className={"text-gray-500 w-fit"}
+                    title="view profile"
+                  >
+                    {lead.name}
+                  </LinkBtn>
+                </TableCell>
                 <TableCell>{lead.mobileNumber}</TableCell>
                 <TableCell>{lead.email}</TableCell>
                 <TableCell>{lead.source}</TableCell>
@@ -82,13 +85,13 @@ function LeadsList() {
                 <TableCell>{lead?.assignedTo?.userName}</TableCell>
                 <TableCell>
                   <div className="flex justify-center items-center gap-2 text-sm">
-                    <LinkBtn
+                    {/* <LinkBtn
                       stub={`lead/profile/${lead?._id}`}
                       className={"text-gray-500 w-fit"}
                       title="view profile"
                     >
                       {icons["eye"]}
-                    </LinkBtn>
+                    </LinkBtn> */}
 
                     <CommonBtn
                       action={() => handleAddFolloup(lead._id)}
@@ -118,7 +121,6 @@ function LeadsList() {
           onPrev={handelPrevPage}
         />
       </div>
-      <AddFollowUpPopup />
     </div>
   );
 }

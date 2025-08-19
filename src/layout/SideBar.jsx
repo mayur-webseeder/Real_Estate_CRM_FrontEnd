@@ -53,11 +53,11 @@ const links = [
     state: { activeSection: "Agent Managment" },
   },
   {
-    icon: "contact",
-    stub: "/followups_management",
-    text: "FollowUps Managment",
+    icon: "deal",
+    stub: "/deals_management",
+    text: "Deals Managment",
     // chidrens: [{ stub: "/agent_management/add_agent", text: "Add Agent" }],
-    state: { activeSection: "FollowUps Managment" },
+    state: { activeSection: "Deals Managment" },
   },
 ];
 

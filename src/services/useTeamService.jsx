@@ -6,13 +6,14 @@ import {
   setTotalAgentPages,
   setPage,
   setSearch,
-} from "../store/agentSlice";
+} from "../store/teamSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
-function useAgentService() {
+function useTeamService() {
   const dispatch = useDispatch();
   const { agent, isAllAgentLoading, page, limit, search, totalPages } =
-    useSelector((state) => state.agent);
+    useSelector((state) => state.team);
   const fetchAgents = async () => {
     dispatch(setAllAgentLoading(true));
     try {
@@ -39,7 +40,20 @@ function useAgentService() {
       dispatch(setAllAgentLoading(false));
     }
   };
-  return { fetchAllAgents, fetchAgents };
+  const addNewUser = async (data) => {
+    try {
+      const res = await axiosInstance.post("/auth/register/user", data);
+      if (res.status == 201) {
+        toast.success("Successfuly added new user ");
+      }
+      return res.data;
+    } catch (error) {
+      toast.error("Error fetching agents:");
+      console.error("Error fetching agents:", error);
+      throw error;
+    }
+  };
+  return { fetchAllAgents, fetchAgents, addNewUser };
 }
 
-export default useAgentService;
+export default useTeamService;
