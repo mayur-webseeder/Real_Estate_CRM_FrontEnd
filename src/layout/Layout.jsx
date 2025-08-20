@@ -6,13 +6,13 @@ import { ToastContainer } from "react-toastify";
 
 function Layout() {
   return (
-    <main className="flex justify-between w-full h-screen transition-all duration-300 border-gray-100 ">
+    <main className="flex justify-between w-full h-screen  transition-all duration-300 border-gray-100 ">
       <ToastContainer stacked={true} />
 
       <SideBar />
-      <div className="flex flex-col w-full border-inherit">
+      <div className=" flex flex-col w-full h-full border-inherit">
         <NavBar />
-        <section className="flex justify-center items-center w-full h-full p-5 border-inherit overflow-y-auto">
+        <section className=" relative flex justify-center items-center  h-full p-5 border-inherit overflow-y-auto">
           <Outlet />
         </section>
       </div>

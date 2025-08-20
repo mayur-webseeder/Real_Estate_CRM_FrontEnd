@@ -5,18 +5,17 @@ import { useSelector } from "react-redux";
 
 function AddDeal() {
   const { leadId, propertyId } = useParams();
-  const { isDealSubmiting } = useSelector((state) => state.deals);
+
   const { createDeal } = useDealsService();
 
-  const handelSubmit = (data) => {
-    createDeal(data);
+  const handelSubmit = async (data) => {
+    await createDeal(data);
   };
   return (
     <DealFormModel
       leadId={leadId}
       propertyId={propertyId}
       onSubmit={handelSubmit}
-      isSubmitting={isDealSubmiting}
     />
   );
 }

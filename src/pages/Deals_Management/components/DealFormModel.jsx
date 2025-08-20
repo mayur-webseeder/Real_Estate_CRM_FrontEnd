@@ -3,7 +3,9 @@ import CommonSelect from "../../../components/input/CommonSelect";
 import CommonInput from "../../../components/input/CommonInput";
 import useIcon from "../../../hooks/useIcon";
 import { FileText } from "lucide-react";
-const DealFormModel = ({ leadId, propertyId, onSubmit, isSubmitting }) => {
+import { useSelector } from "react-redux";
+const DealFormModel = ({ leadId, propertyId, onSubmit }) => {
+  const { isDealSubmitting } = useSelector((state) => state.deals);
   const [formData, setFormData] = useState({
     leadId: leadId || "",
     propertyId: propertyId || "",
@@ -22,17 +24,30 @@ const DealFormModel = ({ leadId, propertyId, onSubmit, isSubmitting }) => {
     e.preventDefault();
     onSubmit(formData);
   };
+  const DEAL_STAGES = [
+    "contacted",
+    "qualification",
+    "site_visit_scheduled",
+    "negotiation",
+    "proposal_sent",
+    "closed_won",
+    "closed_lost",
+  ];
 
   const stageOptions = [
+    { value: "contacted", label: "Contacted", color: "text-blue-500" },
     { value: "qualification", label: "Qualification", color: "text-gray-600" },
-    { value: "site_visit", label: "Site Visit", color: "text-blue-600" },
+    {
+      value: "site_visit_scheduled",
+      label: "Site Visit Scheduled",
+      color: "text-blue-600",
+    },
     { value: "negotiation", label: "Negotiation", color: "text-yellow-600" },
     {
       value: "proposal_sent",
       label: "Proposal Sent",
       color: "text-purple-600",
     },
-    { value: "agreement", label: "Agreement", color: "text-orange-600" },
     { value: "closed_won", label: "Closed Won", color: "text-green-600" },
     { value: "closed_lost", label: "Closed Lost", color: "text-red-600" },
   ];
@@ -55,7 +70,7 @@ const DealFormModel = ({ leadId, propertyId, onSubmit, isSubmitting }) => {
         </p>
       </div>
 
-      <div className="p-6 space-y-5">
+      <form onSubmit={handleSubmit} className="p-6 space-y-5">
         {/* Hidden fields */}
         <CommonInput type="hidden" name="leadId" value={formData.leadId} />
         <CommonInput
@@ -137,10 +152,10 @@ const DealFormModel = ({ leadId, propertyId, onSubmit, isSubmitting }) => {
         <div className="pt-2">
           <button
             type="submit"
-            disabled={isSubmitting}
+            disabled={isDealSubmitting}
             className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg  disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 font-medium flex items-center justify-center"
           >
-            {isSubmitting ? (
+            {isDealSubmitting ? (
               <>
                 {icons["spinner1"]}
                 Creating Deal...
@@ -150,7 +165,7 @@ const DealFormModel = ({ leadId, propertyId, onSubmit, isSubmitting }) => {
             )}
           </button>
         </div>
-      </div>
+      </form>
     </div>
   );
 };

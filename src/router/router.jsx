@@ -23,6 +23,7 @@ import ArchivedProperties from "../pages/Property Management /ArchivedProperties
 import EditProperty from "../pages/Property Management /EditProperty";
 import Deals_Manager from "../pages/Deals_Management/Deals_Manager";
 import AddDeal from "../pages/Deals_Management/AddDeal";
+import DealsKanbanBoard from "../pages/Deals_Management/DealsKanbanBoard";
 function Router() {
   return (
     <Routes>
@@ -188,6 +189,14 @@ function Router() {
             </ProtectedRoute>
           }
         >
+          <Route
+            path=""
+            element={
+              <ProtectedRoute>
+                <DealsKanbanBoard />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="create_deal/:leadId/:propertyId"
             element={
