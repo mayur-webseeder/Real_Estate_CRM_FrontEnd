@@ -1,7 +1,6 @@
 import { useParams } from "react-router";
 import DealFormModel from "./components/DealFormModel";
 import useDealsService from "../../services/useDealsService";
-import { useSelector } from "react-redux";
 
 function AddDeal() {
   const { leadId, propertyId } = useParams();

@@ -123,7 +123,7 @@ function Router() {
             }
           />
           <Route
-            path=""
+            path="archived_properties"
             element={
               <ProtectedRoute>
                 <ArchivedProperties />

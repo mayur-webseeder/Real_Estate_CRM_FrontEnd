@@ -14,6 +14,7 @@ import usePropertiesService from "../../services/usePropertiesService";
 import useIcon from "../../hooks/useIcon";
 import CommonSelect from "../../components/input/CommonSelect";
 import LinkBtn from "../../components/buttons/LinkBtn";
+import CommonBtn from "../../components/buttons/CommonBtn";
 
 function ArchivedProperties() {
   const dispatch = useDispatch();
@@ -25,7 +26,8 @@ function ArchivedProperties() {
     page,
     totalPropertiesPage,
   } = useSelector((state) => state.properties);
-  const { fetchArchivedProperties } = usePropertiesService();
+  const { fetchArchivedProperties, toggleArchiveProperty } =
+    usePropertiesService();
   const icons = useIcon();
 
   const columns = [
@@ -50,6 +52,14 @@ function ArchivedProperties() {
   const handleNextPage = useCallback(() => {
     if (page < totalPropertiesPage) dispatch(setPropertiesPage(page + 1));
   }, [page, totalPropertiesPage, dispatch]);
+
+  const handleArchive = useCallback(
+    async (id, isArchived) => {
+      console.log({ isArchived });
+      await toggleArchiveProperty(id, isArchived);
+    },
+    [toggleArchiveProperty]
+  );
 
   return (
     <div className="space-y-3 w-full border-inherit">
@@ -98,7 +108,25 @@ function ArchivedProperties() {
                   <TableCell>{property.location}</TableCell>
                   <TableCell>{property.price}</TableCell>
                   <TableCell>{property.status}</TableCell>
-                  <TableCell></TableCell>
+                  <TableCell>
+                    <div className="flex">
+                      <CommonBtn
+                        action={() =>
+                          handleArchive(property._id, property.isArchived)
+                        }
+                      >
+                        {icons["unarchive"]}
+                      </CommonBtn>
+                      <LinkBtn
+                        className={"text-red-500 "}
+                        stub={"edit_property"}
+                        title={"edit property"}
+                        state={property}
+                      >
+                        {icons["delete"]}
+                      </LinkBtn>
+                    </div>
+                  </TableCell>
                 </TableRow>
               ))
             ) : (

@@ -38,6 +38,7 @@ import { LuCloudUpload } from "react-icons/lu";
 import { ImClock, ImSpinner6 } from "react-icons/im";
 import { TbArchive, TbArchiveOff } from "react-icons/tb";
 import { CiEdit } from "react-icons/ci";
+import { RiDragDropLine } from "react-icons/ri";
 const useIcon = () => {
   return {
     // A
@@ -59,6 +60,7 @@ const useIcon = () => {
     disposeIn: <MdOutlineMoveDown />,
     disposeOut: <MdOutlineMoveUp />,
     deal: <FaIdeal />,
+    drag: <RiDragDropLine />,
 
     // E
     eyeOff: <FiEyeOff />,

@@ -40,6 +40,11 @@ const links = [
         stub: "/property_management/add_property",
         text: "Add Property",
       },
+      {
+        icon: "point",
+        stub: "/property_management/archived_properties",
+        text: "Archived Properties",
+      },
     ],
     state: { activeSection: "Property Managment" },
   },

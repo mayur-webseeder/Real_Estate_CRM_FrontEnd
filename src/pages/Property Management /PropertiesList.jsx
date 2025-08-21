@@ -26,7 +26,7 @@ function PropertyList() {
     page,
     totalPropertiesPage,
   } = useSelector((state) => state.properties);
-  const { fetchProperties } = usePropertiesService();
+  const { fetchProperties, toggleArchiveProperty } = usePropertiesService();
   const icons = useIcon();
 
   const columns = [
@@ -51,7 +51,12 @@ function PropertyList() {
   const handleNextPage = useCallback(() => {
     if (page < totalPropertiesPage) dispatch(setPropertiesPage(page + 1));
   }, [page, totalPropertiesPage, dispatch]);
-
+  const handleArchive = useCallback(
+    async (id, isArchived) => {
+      await toggleArchiveProperty(id, isArchived);
+    },
+    [toggleArchiveProperty]
+  );
   return (
     <div className="space-y-3 w-full border-inherit">
       {/* Header */}
@@ -101,7 +106,13 @@ function PropertyList() {
                   <TableCell>{property.status}</TableCell>
                   <TableCell>
                     <div className="flex">
-                      <CommonBtn>{icons["archive"]}</CommonBtn>
+                      <CommonBtn
+                        action={() =>
+                          handleArchive(property._id, properties.isArchived)
+                        }
+                      >
+                        {icons["archive"]}
+                      </CommonBtn>
                       <LinkBtn
                         className={"text-blue-600 "}
                         stub={"edit_property"}

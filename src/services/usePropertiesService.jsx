@@ -9,9 +9,8 @@ import axiosInstance from "./axiosInstance";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 function usePropertiesService() {
-  const { search, page, maxPrice, minPrice, statusFilter } = useSelector(
-    (state) => state.properties
-  );
+  const { properties, search, page, maxPrice, minPrice, statusFilter } =
+    useSelector((state) => state.properties);
   const dispatch = useDispatch();
   const nevigate = useNavigate();
 
@@ -134,9 +133,36 @@ function usePropertiesService() {
     }
   };
 
-  const deleteProper = async () => {
+  const toggleArchiveProperty = async (id, isArchived) => {
     try {
+      const response = await axiosInstance.put(`/properties/archive/${id}`, {
+        isArchived,
+      });
+      if (response.data.success) {
+        const filteredProperties = properties.filter(
+          (property) => property._id !== id
+        );
+        dispatch(setProperties(filteredProperties));
+
+        toast.success(
+          `Property ${isArchived ? "archived" : "unarchived"} successfully!`
+        );
+      }
+      return response.data;
     } catch (error) {
+      console.error(error);
+      toast.error(`Error occurred while archiving property`);
+      throw error;
+    }
+  };
+  const deleteProperty = async (id) => {
+    try {
+      const response = await axiosInstance.delete(`/properties/delete/${id}`);
+      toast.success("Property deleted successfully!");
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      toast.error("Error occurred while deleting property");
       throw error;
     }
   };
@@ -146,6 +172,8 @@ function usePropertiesService() {
     editProperty,
     fetchPropertyById,
     fetchArchivedProperties,
+    toggleArchiveProperty,
+    deleteProperty,
   };
 }
 
