@@ -73,7 +73,7 @@ const Login = () => {
             <p className="text-gray-600">Please sign in to your account</p>
           </div>
 
-          <div className="space-y-6">
+          <div className="space-y-6 border-inherit">
             {error && (
               <div className="bg-red-50 border-l-4 border-red-400 p-4 rounded-md">
                 <p className="text-red-700 text-sm font-medium">{error}</p>
@@ -82,7 +82,8 @@ const Login = () => {
 
             {/* Email Field */}
             <CommonInput
-              label="Email Address"
+              className="px-4 py-2"
+              label="Email Address "
               name="email"
               type="email"
               value={formData.email}
@@ -92,7 +93,7 @@ const Login = () => {
             />
 
             {/* Password Field */}
-            <div className="relative">
+            <div className="relative border-inherit">
               <CommonInput
                 label="Password"
                 name="password"
@@ -100,7 +101,7 @@ const Login = () => {
                 value={formData.password}
                 onChange={handleChange}
                 placeholder="Enter your password"
-                className="pr-12"
+                className="pr-12  px-4 py-2"
                 required
               />
               <button
