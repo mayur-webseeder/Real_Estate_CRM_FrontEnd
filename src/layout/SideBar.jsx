@@ -80,15 +80,12 @@ function SideBar() {
 
   return (
     <aside
-      className={`flex flex-col justify-between bg-gradient-to-b text-white from-indigo-950 via-blue-900 to-slate-900 shadow-2xl border-r border-blue-500/30 backdrop-blur-sm transition-all duration-300 ease-in-out ${
+      className={`flex flex-col h-full backdrop-blur-sm transition-all duration-300 ease-in-out border-inherit border-e ${
         isOpen ? "min-w-[280px] w-[280px]" : "w-[72px]"
       } h-full relative overflow-hidden`}
     >
-      {/* Vibrant gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/8 via-blue-500/5 to-indigo-600/8 pointer-events-none"></div>
-
       {/* Header with improved styling */}
-      <header className="relative group flex justify-between items-center h-20 px-4 border-b border-blue-400/30 bg-indigo-900/60">
+      <header className="relative group flex justify-between items-center h-20 px-4 border-b border-inherit ">
         <div
           className={`transition-all duration-300 ease-in-out overflow-hidden ${
             !isOpen ? "w-0 opacity-0" : "w-auto opacity-100"
@@ -117,11 +114,11 @@ function SideBar() {
       {/* Navigation section with enhanced styling */}
       <section className="flex-1 py-6 px-3 overflow-y-auto scrollbar-thin scrollbar-thumb-blue-500/70 scrollbar-track-transparent">
         <nav>
-          <ul className="flex flex-col gap-2 w-full">
+          <ul className="flex flex-col gap-1 text-lg w-full">
             {links.map((link, index) => (
               <li
                 key={JSON.stringify(link)}
-                className={`transition-all duration-300 ease-in-out ${
+                className={`transition-all duration-300 ease-in-out space-y-2 ${
                   !isOpen && "hover:scale-105"
                 }`}
                 style={{
@@ -136,23 +133,20 @@ function SideBar() {
       </section>
 
       {/* Footer with improved styling */}
-      <footer className="p-4 border-t border-blue-400/30 bg-indigo-900/40 backdrop-blur-sm">
+      <footer className="p-5 border-t backdrop-blur-sm border-inherit">
         <div
           className={`transition-all duration-300 ${
             !isOpen && "flex justify-center"
           }`}
         >
           <LogoutBtn
-            className={`transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 ${
+            className={`transition-all duration-300 transform hover:border-l-gray-700 hover:border-l-2 hover:shadow ${
               isOpen ? "w-full" : "w-auto"
             }`}
             hideText={isOpen}
           />
         </div>
       </footer>
-
-      {/* Subtle border accent */}
-      <div className="absolute left-0 top-0 bottom-0 w-[2px] bg-gradient-to-b from-cyan-500/40 via-teal-500/40 to-emerald-500/40"></div>
     </aside>
   );
 }

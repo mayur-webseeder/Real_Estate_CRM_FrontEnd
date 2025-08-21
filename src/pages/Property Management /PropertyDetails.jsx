@@ -42,9 +42,9 @@ const PropertyDetails = () => {
   };
 
   return (
-    <div className=" mx-auto p-6  min-h-screen">
+    <div className="">
       {/* Header Section */}
-      <div className="bg-white rounded-2xl shadow-lg p-8 mb-8 relative overflow-hidden">
+      <div className="bg-white rounded-2xl shadow-sm p-8 mb-8 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-blue-100 to-transparent rounded-bl-full"></div>
         <div className="relative">
           <div className="flex flex-wrap items-start justify-between gap-4 mb-6">
@@ -97,7 +97,7 @@ const PropertyDetails = () => {
 
       {/* Image Gallery */}
       {property.images && property.images.length > 0 && (
-        <div className="bg-white rounded-2xl shadow-lg p-6 mb-8">
+        <div className="bg-white rounded-2xl shadow-sm p-6 mb-8">
           <div className="relative group">
             <div className="aspect-video rounded-xl overflow-hidden bg-gray-200 mb-4 relative">
               <img
@@ -156,7 +156,7 @@ const PropertyDetails = () => {
         {/* Main Details */}
         <div className="lg:col-span-2 space-y-8">
           {/* Property Overview */}
-          <div className="bg-white rounded-2xl shadow-lg p-8">
+          <div className="bg-white rounded-2xl shadow-sm p-8">
             <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
               <span className="mx-auto h-12 w-12 text-blue-500 mr-3">
                 {icons["home"]}
@@ -198,7 +198,7 @@ const PropertyDetails = () => {
 
           {/* Amenities */}
           {property.amenities?.length > 0 && (
-            <div className="bg-white rounded-2xl shadow-lg p-8">
+            <div className="bg-white rounded-2xl shadow-sm p-8">
               <h2 className="text-2xl font-bold text-gray-900 mb-6">
                 Amenities
               </h2>
@@ -220,7 +220,7 @@ const PropertyDetails = () => {
         {/* Sidebar */}
         <div className="space-y-6">
           {/* Quick Info Card */}
-          <div className="bg-white rounded-2xl shadow-lg p-6">
+          <div className="bg-white rounded-2xl shadow-sm p-6">
             <h3 className="text-lg font-bold text-gray-900 mb-4">Quick Info</h3>
             <div className="space-y-4">
               <div className="flex justify-between items-center py-2 border-b border-gray-100">
@@ -259,7 +259,7 @@ const PropertyDetails = () => {
 
           {/* Activity Logs */}
           {property.activityLogs?.length > 0 && (
-            <div className="bg-white rounded-2xl shadow-lg p-6">
+            <div className="bg-white rounded-2xl shadow-sm p-6">
               <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
                 <Calendar className="h-5 w-5 mr-2 text-blue-500" />
                 Recent Activity

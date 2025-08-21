@@ -6,11 +6,13 @@ const PaginationControls = ({
   className,
 }) => {
   return (
-    <div className={`flex  items-center gap-4 mt-2 ${className}`}>
+    <div
+      className={`flex  items-center gap-4 mt-2 border-inherit ${className}`}
+    >
       <button
         onClick={onPrev}
         disabled={page === 1}
-        className="px-3 py-1 rounded-lg border  disabled:opacity-50"
+        className="px-3 py-1 rounded-lg border  disabled:opacity-50 border-inherit"
       >
         Previous
       </button>
@@ -20,7 +22,7 @@ const PaginationControls = ({
       <button
         onClick={onNext}
         disabled={page === totalPages}
-        className="px-3 py-1 rounded-lg border disabled:opacity-50"
+        className="px-3 py-1 rounded-lg border disabled:opacity-50 border-inherit"
       >
         Next
       </button>

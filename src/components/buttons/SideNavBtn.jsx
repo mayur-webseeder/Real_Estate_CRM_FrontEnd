@@ -7,8 +7,10 @@ function SideNavBtn({ action, stub, icon, text, className, hideText, state }) {
     <NavLink
       className={({ isActive }) =>
         ` ${
-          isActive ? "opacity-100" : "opacity-50"
-        } flex justify-start items-center gap-3  hover:opacity-100 hover:bg-black/10 rounded-lg p-2 ${className}`
+          isActive
+            ? "opacity-100 border-l-gray-700 border-l-2 shadow"
+            : "opacity-50"
+        } flex justify-start items-center gap-3  hover:opacity-100 hover:border-l-gray-700 hover:border-l-2 hover:shadow rounded-lg transition-all duration-200 p-2 ${className}`
       }
       aria-label={`${text}-side-nav-link`}
       to={stub}

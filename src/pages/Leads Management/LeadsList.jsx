@@ -4,12 +4,15 @@ import TableRow from "../../components/table/TableRow";
 import useLeadsService from "../../services/useLeadsService";
 import PaginationControls from "../../components/table/PaginationControls";
 import { useDispatch, useSelector } from "react-redux";
-import { setLeadPage } from "../../store/leadsSlice";
+import { setLeadPage, setLeadsSearch } from "../../store/leadsSlice";
 import TableCell from "../../components/table/TableCell";
 import LinkBtn from "../../components/buttons/LinkBtn";
 import CommonBtn from "../../components/buttons/CommonBtn";
 import useIcon from "../../hooks/useIcon";
 import { useNavigate } from "react-router";
+import CommonHeader from "../../components/header/CommonHeader";
+import WrapperContainer from "../../components/WrapperContainer";
+import CommonInput from "../../components/input/CommonInput";
 function LeadsList() {
   const { fetchLeads, toggelDisposeLead } = useLeadsService();
   const { leads, search, page, limit, totalPages } = useSelector(
@@ -48,20 +51,39 @@ function LeadsList() {
   const handelDisposeLead = (id, isDispose) => {
     toggelDisposeLead({ id, isDispose });
   };
+
   return (
     <div className=" space-y-3 w-full border-inherit">
-      <div className="rounded-lg border  p-6 mb-6 border-inherit">
-        <div className="flex items-center gap-3">
-          <div className="w-full text-start">
-            <h2 className="text-xl font-medium text-gray-900">
-              Total {leads?.length} leads found{" "}
-            </h2>
-            <div className="flex justify-center items-center gap-5"></div>
+      <CommonHeader
+        title={"Leads list"}
+        subTitle={"Manage view, edit, dispose"}
+        className={"flex justify-between w-full"}
+      ></CommonHeader>
+      <div className="border-inherit space-y-3">
+        <div className="flex justify-between items-center w-full border-inherit">
+          <div className="bg-gray-200 p-2 px-4 rounded-lg">
+            Total of {leads.length} leads found
+          </div>
+          <div className="flex justify-center items-center gap-2 pr-4 w-fit border-inherit">
+            <div className="flex items-center justify-center gap-2">
+              <CommonBtn className={"border  rounded-lg text-nowrap"}>
+                Bulk import{" "}
+              </CommonBtn>
+              <CommonBtn className={"border rounded-lg text-nowrap"}>
+                Bulk export{" "}
+              </CommonBtn>
+            </div>
+            <CommonInput
+              className="w-fit py-2 px-4 "
+              type="search"
+              placeholder="Search"
+              value={search}
+              onChange={(e) => dispatch(setLeadsSearch(e.target.value))}
+            />
           </div>
         </div>
-      </div>
-      <div className="w-full border-inherit space-y-6">
-        <div className="w-full overflow-auto border-inherit text-nowrap">
+
+        <WrapperContainer>
           <TableFrame className="border rounded-lg" columns={leadsColumn}>
             {leads.map((lead) => (
               <TableRow key={lead._id}>
@@ -112,15 +134,15 @@ function LeadsList() {
               </TableRow>
             ))}
           </TableFrame>
-        </div>
-        <PaginationControls
-          className={" justify-end w-full "}
-          page={page}
-          totalPages={totalPages}
-          onNext={handelNextPage}
-          onPrev={handelPrevPage}
-        />
+        </WrapperContainer>
       </div>
+      <PaginationControls
+        className={" justify-end w-full "}
+        page={page}
+        totalPages={totalPages}
+        onNext={handelNextPage}
+        onPrev={handelPrevPage}
+      />
     </div>
   );
 }

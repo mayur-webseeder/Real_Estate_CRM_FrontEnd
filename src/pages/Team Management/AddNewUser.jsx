@@ -5,6 +5,9 @@ import useIcon from "../../hooks/useIcon";
 import ToggleBtn from "../../components/buttons/ToggleBtn";
 import useTeamService from "../../services/useTeamService";
 import { toast } from "react-toastify";
+import CommonHeader from "../../components/header/CommonHeader";
+import SaveBtn from "../../components/buttons/SaveBtn";
+import CancelBtn from "../../components/buttons/CancelBtn";
 
 const initialFormState = {
   userName: "",
@@ -64,21 +67,17 @@ const AddNewUser = () => {
   return (
     <>
       {/* Header */}
-      <div className="  p-6 mb-6  border rounded-xl  shadow-sm border-inherit">
-        <div className="flex items-center gap-3 border-inherit">
-          <div className="w-full text-start">
-            <h1 className="text-2xl font-bold text-gray-900">Add New User</h1>
-            <p className="text-gray-600 mt-1">
-              Create a new agent profile for your real estate team
-            </p>
-          </div>
-          <div className="hidden md:block">
-            <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center">
-              <span className=" text-blue-600">{icons["userPlus"]}</span>
-            </div>
+      <CommonHeader
+        title={"Add New User"}
+        subTitle="Create a new agent profile for your real estate team"
+        className="justify-end items-center w-full border-inherit"
+      >
+        <div className="hidden md:block">
+          <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center">
+            <span className=" text-blue-600">{icons["userPlus"]}</span>
           </div>
         </div>
-      </div>
+      </CommonHeader>
 
       {/* Main Form */}
       <div className="bg-white rounded-lg shadow-sm border  p-6 border-inherit mb-5 ">
@@ -91,6 +90,7 @@ const AddNewUser = () => {
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 border-inherit">
               <CommonInput
+                className="py-3 px-4"
                 label="Full Name"
                 name="userName"
                 value={formData.userName}
@@ -101,6 +101,7 @@ const AddNewUser = () => {
                 //   icon={User}
               />
               <CommonInput
+                className="py-3 px-4"
                 label="Email Address"
                 name="email"
                 type="email"
@@ -112,6 +113,7 @@ const AddNewUser = () => {
                 //   icon={Mail}
               />
               <CommonInput
+                className="py-3 px-4"
                 label="Mobile Number"
                 name="mobileNumber"
                 type="tel"
@@ -122,6 +124,7 @@ const AddNewUser = () => {
                 //   icon={Phone}
               />
               <CommonInput
+                className="py-3 px-4"
                 label="Password"
                 name="password"
                 type="password"
@@ -144,6 +147,7 @@ const AddNewUser = () => {
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 border-inherit">
               <CommonInput
+                className="py-3 px-4"
                 label="Territory"
                 name="territory"
                 value={formData.territory}
@@ -161,6 +165,7 @@ const AddNewUser = () => {
                 //   icon={Shield}
               />
               <CommonInput
+                className="py-3 px-4"
                 label="Total Deals"
                 name="totalDeals"
                 type="number"
@@ -170,6 +175,7 @@ const AddNewUser = () => {
                 //   icon={TrendingUp}
               />
               <CommonInput
+                className="py-3 px-4"
                 label="Commission Rate"
                 name="commissionRate"
                 type="number"
@@ -182,6 +188,7 @@ const AddNewUser = () => {
 
             <div className="mt-6 border-inherit">
               <CommonInput
+                className="py-3 px-4"
                 label="Total Sales Value"
                 name="totalSalesValue"
                 type="number"
@@ -228,31 +235,22 @@ const AddNewUser = () => {
 
           {/* Action Buttons */}
           <div className="flex items-center justify-end gap-4 pt-6 border-t border-gray-200">
-            <button
-              type="button"
+            <CancelBtn
+              className="px-8 py-3"
               onClick={() => setFormData(initialFormState)}
-              className="px-6 py-3 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors font-medium"
             >
-              Reset Form
-            </button>
-            <button
+              Cancel
+            </CancelBtn>
+
+            <SaveBtn
+              className=" px-8 py-3  "
               type="submit"
+              isLoading={loading}
               onClick={handleSubmit}
               disabled={loading}
-              className="px-8 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-all duration-200 font-medium disabled:opacity-70 disabled:cursor-not-allowed flex items-center gap-2"
             >
-              {loading ? (
-                <>
-                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                  Registering...
-                </>
-              ) : (
-                <>
-                  <span className="w-4 h-4">{icons["save"]}</span>
-                  Register Agent
-                </>
-              )}
-            </button>
+              Register Agent
+            </SaveBtn>
           </div>
         </div>
       </div>

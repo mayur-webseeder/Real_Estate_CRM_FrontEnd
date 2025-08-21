@@ -14,7 +14,7 @@ const CommonInput = ({
       {label && (
         <label
           htmlFor={name}
-          className=" flex font-semibold text-sm text-gray-700 border-inherit"
+          className=" flex items-center gap-1 font-semibold text-sm text-gray-700 border-inherit"
         >
           {label}
           {required && <span className="text-red-500 ml-1">*</span>}
@@ -29,7 +29,7 @@ const CommonInput = ({
         onChange={onChange}
         placeholder={placeholder}
         required={required}
-        className={`w-full py-3 px-4 border border-inherit  rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-gray-900 placeholder-gray-500 ${
+        className={`w-full  border border-inherit  rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-gray-900 placeholder-gray-500 ${
           error
             ? "border-red-500 focus:ring-red-300"
             : "border-inherit focus:ring-blue-500"

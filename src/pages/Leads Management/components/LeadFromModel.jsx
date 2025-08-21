@@ -1,10 +1,14 @@
-import React, { useEffect, useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import CommonInput from "../../../components/input/CommonInput";
 import CommonSelect from "../../../components/input/CommonSelect";
-import { Loader, Phone, Target, User, Users } from "lucide-react";
+import { Phone, Target, User, Users } from "lucide-react";
 import useIcon from "../../../hooks/useIcon";
 import { useSelector } from "react-redux";
 import useTeamService from "../../../services/useTeamService";
+import CommonHeader from "../../../components/header/CommonHeader";
+import WrapperContainer from "../../../components/WrapperContainer";
+import SaveBtn from "../../../components/buttons/SaveBtn";
+import CancelBtn from "../../../components/buttons/CancelBtn";
 
 // Constants moved to top level to prevent recreation on each render
 const PROPERTY_TYPES = [
@@ -83,38 +87,22 @@ function LeadFormModel({
     });
   };
 
-  // Improved field validation display
-  const renderFieldLabel = (icon, text, required = false) => (
-    <div className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
-      {icon}
-      {text}
-      {required && <span className="text-red-500">*</span>}
-    </div>
-  );
-
   return (
     <div className="w-full border-inherit">
       {/* Header Section */}
-      <div className="rounded-xl border p-6 mb-6 border-inherit shadow-sm bg-white">
-        <div className="flex items-center gap-3">
-          <div className="w-full text-start">
-            <h2 className="text-xl font-medium text-gray-900">{heading}</h2>
-            {subHeading && <p className="text-gray-600 mt-1">{subHeading}</p>}
-          </div>
-        </div>
-      </div>
+      <CommonHeader title={<span>{heading}</span>} subTitle={subHeading} />
 
       {/* Main Form */}
-      <div className="p-6 space-y-6 border-inherit border rounded-xl shadow-sm bg-white">
+      <WrapperContainer className={"border-inherit p-6 "}>
         {/* Basic Information */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 border-inherit">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 border-inherit w-full">
           {/* Name */}
           <CommonInput
-            label={renderFieldLabel(
-              <User className="w-4 h-4 text-gray-500" />,
-              "Name",
-              true
-            )}
+            label={
+              <>
+                <User className="w-4 h-4 text-gray-500" /> Name
+              </>
+            }
             required={true}
             type="text"
             name="name"
@@ -127,11 +115,11 @@ function LeadFormModel({
 
           {/* Mobile Number */}
           <CommonInput
-            label={renderFieldLabel(
-              <Phone className="w-4 h-4 text-gray-500" />,
-              "Mobile Number",
-              true
-            )}
+            label={
+              <>
+                <Phone className="w-4 h-4 text-gray-500" /> Mobile Number
+              </>
+            }
             required={true}
             type="tel"
             name="mobileNumber"
@@ -146,11 +134,11 @@ function LeadFormModel({
           <CommonInput
             type="email"
             name="email"
-            className="border-inherit"
+            className="border-inherit py-3 px-4 "
             placeholder="Enter email address"
             autoComplete="email"
             label={
-              <div className="flex gap-2 text-sm items-center font-medium text-gray-700 mb-2">
+              <div className="flex gap-2  text-sm items-center font-medium text-gray-700 mb-2">
                 <span className="text-lg">{icons["mail"]}</span>
                 Email
               </div>
@@ -161,10 +149,12 @@ function LeadFormModel({
 
           {/* Source */}
           <CommonSelect
-            label={renderFieldLabel(
-              <Target className="w-4 h-4 text-gray-500" />,
-              "Source"
-            )}
+            label={
+              <>
+                <Target className="w-4 h-4 text-gray-500" />
+                Source
+              </>
+            }
             options={SOURCE_OPTIONS}
             name="source"
             value={data.source || ""}
@@ -238,6 +228,7 @@ function LeadFormModel({
 
             {/* Category */}
             <CommonInput
+              className="py-3 px-4"
               label="Category"
               name="propertyRequirement.category"
               value={data.propertyRequirement?.category || ""}
@@ -247,6 +238,7 @@ function LeadFormModel({
 
             {/* Budget Min */}
             <CommonInput
+              className="py-3 px-4"
               label="Min Budget (₹)"
               type="number"
               name="propertyRequirement.budgetMin"
@@ -258,6 +250,7 @@ function LeadFormModel({
 
             {/* Budget Max */}
             <CommonInput
+              className="py-3 px-4"
               label="Max Budget (₹)"
               type="number"
               name="propertyRequirement.budgetMax"
@@ -269,6 +262,7 @@ function LeadFormModel({
 
             {/* Size */}
             <CommonInput
+              className="py-3 px-4"
               label="Size"
               name="propertyRequirement.size"
               value={data.propertyRequirement?.size || ""}
@@ -287,7 +281,7 @@ function LeadFormModel({
               )}
               onChange={handleLocationChange}
               placeholder="Enter locations separated by commas (e.g., Downtown, Suburbs, Near Metro)"
-              className="w-full"
+              className="w-full py-3 px-4"
             />
             <p className="text-xs text-gray-500 mt-1">
               Separate multiple locations with commas
@@ -297,32 +291,24 @@ function LeadFormModel({
 
         {/* Action Buttons */}
         <div className="flex justify-end gap-3 pt-6 border-t border-gray-200">
-          <button
-            type="button"
+          <CancelBtn
+            className="px-6 py-3"
             onClick={resetForm}
-            className="px-6 py-3 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors font-medium disabled:opacity-50"
             disabled={isLoading}
+            type="button"
           >
             Cancel
-          </button>
+          </CancelBtn>
 
-          <button
-            type="submit"
+          <SaveBtn
             onClick={handleSubmit}
+            isLoading={isLoading}
             disabled={isLoading || !data.name || !data.mobileNumber}
-            className="flex items-center justify-center gap-2 bg-blue-600 text-white py-3 px-6 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed min-w-[120px]"
           >
-            {isLoading ? (
-              <>
-                <Loader className="w-4 h-4 animate-spin" />
-                Adding...
-              </>
-            ) : (
-              "Add Lead"
-            )}
-          </button>
+            Add Lead
+          </SaveBtn>
         </div>
-      </div>
+      </WrapperContainer>
     </div>
   );
 }

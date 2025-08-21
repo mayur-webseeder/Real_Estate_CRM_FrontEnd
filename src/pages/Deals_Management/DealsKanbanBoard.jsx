@@ -8,6 +8,7 @@ import { setDealsColumns } from "../../store/dealsSlice";
 import useIcon from "../../hooks/useIcon";
 import EditDealPopup from "./EditDealPopup";
 import CommonBtn from "../../components/buttons/CommonBtn";
+import CommonHeader from "../../components/header/CommonHeader";
 
 export default function DealsKanban() {
   const { stages, columns, isLoading } = useSelector((state) => state.deals);
@@ -94,14 +95,10 @@ export default function DealsKanban() {
 
   return (
     <div className="min-h-screen w-full border-inherit">
-      <div className="rounded-lg border p-6 mb-6 border-inherit">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">
-          Deals Pipeline
-        </h1>
-        <p className="text-gray-600">
-          Manage and track your sales opportunities
-        </p>
-      </div>
+      <CommonHeader
+        title={<span>Deals Pipeline</span>}
+        subTitle={<span>Manage and track your sales opportunities</span>}
+      ></CommonHeader>
 
       <div className="flex flex-wrap gap-3 pb-10 border-inherit">
         <DragDropContext onDragEnd={onDragEnd}>
@@ -117,18 +114,18 @@ export default function DealsKanban() {
                   <div
                     ref={provided.innerRef}
                     {...provided.droppableProps}
-                    className={`bg-white rounded-lg border-2 border-dashed border-inherit p-4 min-w-[265px] max-w-[280px] min-h-[500px] shadow-sm transition-all duration-200 ${
+                    className={`rounded-lg border-2 border-dashed border-inherit p-4 min-w-[265px] max-w-[280px] min-h-[500px] shadow-sm transition-all duration-200 ${
                       snapshot.isDraggingOver
                         ? "bg-blue-50 border-blue-300 shadow-md"
                         : "hover:shadow-md"
                     }`}
                   >
                     {/* Header */}
-                    <div className="flex items-center justify-between mb-4 pb-3 border-b border-gray-100">
+                    <div className="flex items-center justify-between mb-4 pb-3 border-b border-inherit">
                       <h2 className="font-semibold text-gray-800 text-sm uppercase tracking-wide">
                         {title}
                       </h2>
-                      <span className="bg-gray-100 text-gray-700 text-xs font-medium px-2 py-1 rounded-full">
+                      <span className=" text-gray-700 text-xs font-medium px-2 py-1 rounded-full">
                         {items.length}
                       </span>
                     </div>

@@ -12,10 +12,18 @@ import {
   MdSpaceDashboard,
   MdUnarchive,
 } from "react-icons/md";
-import { FaLandmark, FaUsers, FaSpinner, FaIdeal } from "react-icons/fa6";
+import {
+  FaLandmark,
+  FaUsers,
+  FaSpinner,
+  FaIdeal,
+  FaDollarSign,
+  FaRupeeSign,
+} from "react-icons/fa6";
 import {
   BsArchive,
   BsBell,
+  BsCurrencyRupee,
   BsEye,
   BsLayoutTextSidebarReverse,
   BsPhone,
@@ -29,6 +37,7 @@ import {
   FiEyeOff,
   FiFileText,
   FiMapPin,
+  FiMessageSquare,
   FiTrendingUp,
   FiUser,
 } from "react-icons/fi";
@@ -36,9 +45,10 @@ import { MdContactEmergency, MdDeleteOutline } from "react-icons/md";
 import { RiChatFollowUpLine } from "react-icons/ri";
 import { LuCloudUpload } from "react-icons/lu";
 import { ImClock, ImSpinner6 } from "react-icons/im";
-import { TbArchive, TbArchiveOff } from "react-icons/tb";
+import { TbArchive, TbArchiveOff, TbUserDollar } from "react-icons/tb";
 import { CiEdit } from "react-icons/ci";
 import { RiDragDropLine } from "react-icons/ri";
+
 const useIcon = () => {
   return {
     // A
@@ -52,15 +62,15 @@ const useIcon = () => {
     contact: <MdContactEmergency />,
     close: <MdClose />,
     clock: <ImClock />,
-    calender: <MdOutlineDateRange />,
+    calendar: <MdOutlineDateRange />,
     // D
-
     dashboardFi: <MdSpaceDashboard />,
     delete: <MdDeleteOutline />,
     disposeIn: <MdOutlineMoveDown />,
     disposeOut: <MdOutlineMoveUp />,
     deal: <FaIdeal />,
     drag: <RiDragDropLine />,
+    dollar: <FaDollarSign />,
 
     // E
     eyeOff: <FiEyeOff />,
@@ -93,6 +103,7 @@ const useIcon = () => {
 
     // M
     mail: <MdMailOutline />,
+    messageSq: <FiMessageSquare />,
 
     // N
     note: <FiFileText />,
@@ -109,7 +120,7 @@ const useIcon = () => {
     // --
 
     // R
-    // --
+    rupee: <BsCurrencyRupee />,
 
     // S
     sidebar: <BsLayoutTextSidebarReverse />,

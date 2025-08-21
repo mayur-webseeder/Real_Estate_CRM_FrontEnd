@@ -62,6 +62,7 @@ export const {
   setLeads,
   setLeadsTotalPages,
   setLeadPage,
+  setLeadsSearch,
   setIsLeadsLoading,
   setLeadId,
   setIsEditingLead,

@@ -3,6 +3,10 @@ import CommonInput from "../../../components/input/CommonInput";
 import CommonSelect from "../../../components/input/CommonSelect";
 import { useSelector } from "react-redux";
 import useIcon from "../../../hooks/useIcon";
+import CommonHeader from "../../../components/header/CommonHeader";
+import WrapperContainer from "../../../components/WrapperContainer";
+import SaveBtn from "../../../components/buttons/SaveBtn";
+import CancelBtn from "../../../components/buttons/CancelBtn";
 
 function PropertyFormModel({
   data,
@@ -41,28 +45,20 @@ function PropertyFormModel({
   };
 
   return (
-    <div className="max-w-7xl mx-auto p-6 min-h-screen border-inherit">
+    <div className=" border-inherit">
       {/* Header Card */}
-      <div className=" rounded-xl shadow-sm border border-inherit p-6 mb-8">
-        <div className="flex items-center justify-between text-start border-inherit">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">
-              Add New Property
-            </h1>
-            <p className="text-gray-600">
-              Fill in the details below to list a new property
-            </p>
-          </div>
-          <div className="hidden md:block">
-            <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center">
-              {icons["property"]}
-            </div>
-          </div>
+      <CommonHeader
+        title="Property Management"
+        subTitle="Add, edit, and manage properties"
+      >
+        {" "}
+        <div className="hidden md:flex w-16 h-16 bg-blue-100 rounded-full  items-center justify-center">
+          {icons["property"]}
         </div>
-      </div>
+      </CommonHeader>
 
       {/* Main Form */}
-      <div className="bg-white rounded-xl shadow-sm border border-inherit">
+      <WrapperContainer>
         <form onSubmit={handleSubmit} className="p-8 border-inherit">
           {/* Basic Information Section */}
           <div className="mb-8 border-inherit">
@@ -72,6 +68,7 @@ function PropertyFormModel({
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 border-inherit">
               <div className="lg:col-span-2 border-inherit">
                 <CommonInput
+                  className="py-3 px-4"
                   label="Property Title"
                   name="title"
                   value={data.title}
@@ -94,6 +91,7 @@ function PropertyFormModel({
               />
 
               <CommonInput
+                className="py-3 px-4"
                 label="Property Category"
                 name="category"
                 value={data.category}
@@ -103,6 +101,7 @@ function PropertyFormModel({
               />
 
               <CommonInput
+                className="py-3 px-4"
                 label="Location"
                 name="location"
                 value={data.location}
@@ -147,6 +146,7 @@ function PropertyFormModel({
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 border-inherit">
               <CommonInput
+                className="py-3 px-4"
                 label="Price"
                 name="price"
                 type="number"
@@ -157,6 +157,7 @@ function PropertyFormModel({
               />
 
               <CommonInput
+                className="py-3 px-4"
                 label="Area"
                 name="area"
                 type="number"
@@ -167,6 +168,7 @@ function PropertyFormModel({
               />
 
               <CommonInput
+                className="py-3 px-4"
                 label="Unit"
                 name="unit"
                 value={data.unit}
@@ -180,6 +182,7 @@ function PropertyFormModel({
 
               <div className="lg:col-span-4 border-inherit">
                 <CommonInput
+                  className="py-3 px-4"
                   label="Amenities"
                   name="amenities"
                   value={data.amenities}
@@ -265,28 +268,19 @@ function PropertyFormModel({
           </div>
 
           {/* Submit Button */}
-          <div className="flex justify-end pt-6 border-t border-inherit">
-            <button
+          <div className="flex items-center gap-3 justify-end pt-6 border-t border-inherit">
+            <CancelBtn className="px-8 py-3">Cancel</CancelBtn>
+
+            <SaveBtn
+              className="px-8 py-3"
               type="submit"
-              disabled={isSubmitting}
-              className={`px-8 py-3 rounded-lg font-semibold text-white transition-all ${
-                isSubmitting
-                  ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-blue-600 hover:bg-blue-700 hover:shadow-lg active:transform active:scale-95"
-              }`}
+              isLoading={isSubmitting}
             >
-              {isSubmitting ? (
-                <div className="flex items-center gap-3 border-inherit">
-                  {icons["spinner1"]}
-                  Adding Property...
-                </div>
-              ) : (
-                "Add Property"
-              )}
-            </button>
+              Add Property
+            </SaveBtn>
           </div>
         </form>
-      </div>
+      </WrapperContainer>
     </div>
   );
 }

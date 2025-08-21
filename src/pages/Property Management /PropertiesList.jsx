@@ -15,6 +15,8 @@ import useIcon from "../../hooks/useIcon";
 import CommonSelect from "../../components/input/CommonSelect";
 import LinkBtn from "../../components/buttons/LinkBtn";
 import CommonBtn from "../../components/buttons/CommonBtn";
+import CommonHeader from "../../components/header/CommonHeader";
+import WrapperContainer from "../../components/WrapperContainer";
 
 function PropertyList() {
   const dispatch = useDispatch();
@@ -60,13 +62,20 @@ function PropertyList() {
   return (
     <div className="space-y-3 w-full border-inherit">
       {/* Header */}
-      <div className="rounded-lg border p-6 mb-6 border-inherit">
+      <CommonHeader
+        className={"justify-end w-full border-inherit"}
+        title={"Properties List"}
+        subTitle="Manage your properties"
+      ></CommonHeader>
+      {/* Table */}{" "}
+      <div className="border-inherit space-y-3">
         <div className="flex justify-between items-center w-full border-inherit">
-          <h2 className="text-xl font-medium text-gray-900">
-            Total {properties.length} leads found
-          </h2>
-          <div className="flex justify-center items-center gap-3">
+          <div className="bg-gray-200 p-2 px-4 rounded-lg">
+            Total of {properties.length} Properties found
+          </div>
+          <div className="flex justify-center items-center gap-3 border-inherit">
             <CommonInput
+              className="border-inherit py-3 px-4"
               type="search"
               placeholder="Search"
               value={search}
@@ -81,11 +90,8 @@ function PropertyList() {
             />
           </div>
         </div>
-      </div>
-
-      {/* Table */}
-      <div className="w-full border-inherit space-y-6">
-        <div className="w-full overflow-auto border-inherit text-nowrap">
+        <WrapperContainer>
+          {" "}
           <TableFrame className="border rounded-lg" columns={columns}>
             {properties.length > 0 ? (
               properties.map((property) => (
@@ -133,17 +139,16 @@ function PropertyList() {
               </TableRow>
             )}
           </TableFrame>
-        </div>
-
-        {/* Pagination */}
-        <PaginationControls
-          className="justify-end w-full"
-          page={page}
-          totalPages={totalPropertiesPage}
-          onNext={handleNextPage}
-          onPrev={handlePrevPage}
-        />
+        </WrapperContainer>
       </div>
+      {/* Pagination */}
+      <PaginationControls
+        className="justify-end w-full"
+        page={page}
+        totalPages={totalPropertiesPage}
+        onNext={handleNextPage}
+        onPrev={handlePrevPage}
+      />
     </div>
   );
 }

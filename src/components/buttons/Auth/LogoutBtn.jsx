@@ -10,7 +10,7 @@ function LogoutBtn({ hideText = false, className }) {
   };
   return (
     <button
-      className={`flex justify-start items-center gap-3 text-red-500 opacity-70 hover:opacity-100 hover:bg-black/5 p-2 rounded-lg cursor-pointer ${className}`}
+      className={`flex justify-start items-center gap-3 text-red-500 opacity-70 hover:opacity-100  p-2 rounded-lg cursor-pointer ${className}`}
       onClick={handleLogout}
     >
       <span>{icons["logout"]}</span>

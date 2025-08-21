@@ -109,7 +109,7 @@ const ProfileMenuBox = () => {
               </LinkBtn>
             ))}
             <LogoutBtn
-              className={"w-full px-4 py-2 rounded-none"}
+              className={"w-full px-4 py-2 rounded-none hover:bg-black/10"}
               hideText={true}
             />
           </div>

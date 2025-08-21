@@ -15,6 +15,8 @@ import useIcon from "../../hooks/useIcon";
 import CommonSelect from "../../components/input/CommonSelect";
 import LinkBtn from "../../components/buttons/LinkBtn";
 import CommonBtn from "../../components/buttons/CommonBtn";
+import WrapperContainer from "../../components/WrapperContainer";
+import CommonHeader from "../../components/header/CommonHeader";
 
 function ArchivedProperties() {
   const dispatch = useDispatch();
@@ -64,13 +66,17 @@ function ArchivedProperties() {
   return (
     <div className="space-y-3 w-full border-inherit">
       {/* Header */}
-      <div className="rounded-lg border p-6 mb-6 border-inherit">
+      <CommonHeader title="Archived Properties"></CommonHeader>
+
+      {/* Table */}
+      <div className="border-inherit space-y-3">
         <div className="flex justify-between items-center w-full border-inherit">
-          <h2 className="text-xl font-medium text-gray-900">
-            Total {properties.length} leads found
-          </h2>
-          <div className="flex justify-center items-center gap-3">
+          <div className="bg-gray-200 p-2 px-4 rounded-lg">
+            Total of {properties.length} archived properties found
+          </div>
+          <div className="flex justify-center items-center gap-3 border-inherit">
             <CommonInput
+              className="py-3 px-4"
               type="search"
               placeholder="Search"
               value={search}
@@ -83,13 +89,9 @@ function ArchivedProperties() {
               options={["available", "under-offer", "sold", "rented"]}
               onChange={(e) => dispatch(setStatusFilter(e.target.value))}
             />
-          </div>
+          </div>{" "}
         </div>
-      </div>
-
-      {/* Table */}
-      <div className="w-full border-inherit space-y-6">
-        <div className="w-full overflow-auto border-inherit text-nowrap">
+        <WrapperContainer>
           <TableFrame className="border rounded-lg" columns={columns}>
             {properties.length > 0 ? (
               properties.map((property) => (
@@ -137,17 +139,16 @@ function ArchivedProperties() {
               </TableRow>
             )}
           </TableFrame>
-        </div>
-
-        {/* Pagination */}
-        <PaginationControls
-          className="justify-end w-full"
-          page={page}
-          totalPages={totalPropertiesPage}
-          onNext={handleNextPage}
-          onPrev={handlePrevPage}
-        />
+        </WrapperContainer>
       </div>
+      {/* Pagination */}
+      <PaginationControls
+        className="justify-end w-full"
+        page={page}
+        totalPages={totalPropertiesPage}
+        onNext={handleNextPage}
+        onPrev={handlePrevPage}
+      />
     </div>
   );
 }

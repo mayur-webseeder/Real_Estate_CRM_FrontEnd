@@ -4,10 +4,13 @@ import TableRow from "../../components/table/TableRow";
 import useLeadsService from "../../services/useLeadsService";
 import PaginationControls from "../../components/table/PaginationControls";
 import { useDispatch, useSelector } from "react-redux";
-import { setLeadPage, setLeads } from "../../store/leadsSlice";
+import { setLeadPage, setLeads, setLeadsSearch } from "../../store/leadsSlice";
 import TableCell from "../../components/table/TableCell";
 import CommonBtn from "../../components/buttons/CommonBtn";
 import useIcon from "../../hooks/useIcon";
+import CommonHeader from "../../components/header/CommonHeader";
+import WrapperContainer from "../../components/WrapperContainer";
+import CommonInput from "../../components/input/CommonInput";
 
 function DisposedLeadsList() {
   const { fetchDisposedLeads, toggelDisposeLead } = useLeadsService();
@@ -46,18 +49,27 @@ function DisposedLeadsList() {
   };
   return (
     <div className=" space-y-3 w-full border-inherit">
-      <div className="rounded-lg border  p-6 mb-6 border-inherit">
-        <div className="flex items-center gap-3">
-          <div className="w-full text-start">
-            <h2 className="text-xl font-medium text-gray-900">
-              Total {leads?.length} disposed leads found{" "}
-            </h2>
-            <div className="flex justify-center items-center gap-5"></div>
+      <CommonHeader
+        title="Disposed Leads"
+        subTitle="Manage and review disposed leads"
+      />
+      <div className="border-inherit space-y-3 borih">
+        <div className="flex justify-between items-center w-full border-inherit">
+          <div className="bg-gray-200 p-2 px-4 rounded-lg">
+            Total of {leads.length} disposed leads found
+          </div>
+          <div className="flex justify-center items-center gap-3 border-inherit">
+            <CommonInput
+              className="px-4 py-2"
+              type="search"
+              placeholder="Search"
+              value={search}
+              onChange={(e) => dispatch(setLeadsSearch(e.target.value))}
+            />
           </div>
         </div>
-      </div>
-      <div className="w-full border-inherit space-y-6">
-        <div className="w-full overflow-auto border-inherit text-nowrap">
+
+        <WrapperContainer>
           <TableFrame className="border rounded-lg" columns={leadsColumn}>
             {leads.map((lead) => (
               <TableRow key={lead._id}>
@@ -91,15 +103,15 @@ function DisposedLeadsList() {
               </TableRow>
             ))}
           </TableFrame>
-        </div>
-        <PaginationControls
-          className={" justify-end w-full "}
-          page={page}
-          totalPages={totalPages}
-          onNext={handelNextPage}
-          onPrev={handelPrevPage}
-        />
+        </WrapperContainer>
       </div>
+      <PaginationControls
+        className={" justify-end w-full border-inherit "}
+        page={page}
+        totalPages={totalPages}
+        onNext={handelNextPage}
+        onPrev={handelPrevPage}
+      />
     </div>
   );
 }

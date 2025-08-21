@@ -7,6 +7,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { setPage, setSearch } from "../../store/teamSlice";
 import PaginationControls from "../../components/table/PaginationControls";
 import CommonInput from "../../components/input/CommonInput";
+import WrapperContainer from "../../components/WrapperContainer";
+import CommonHeader from "../../components/header/CommonHeader";
 
 function UserTable() {
   const dispatch = useDispatch();
@@ -48,19 +50,20 @@ function UserTable() {
   return (
     <div className="space-y-3 w-full border-inherit">
       {/* Search Input */}
-
-      <div className="flex justify-end w-full border-inherit ">
-        <CommonInput
-          type="text"
-          value={search}
-          onChange={handleSearch}
-          placeholder="Search agents..."
-          className="border px-3 py-1 w-fit rounded-md"
-        />
-      </div>
+      <CommonHeader title="User Management">
+        <div className="flex justify-end w-full border-inherit ">
+          <CommonInput
+            type="text"
+            value={search}
+            onChange={handleSearch}
+            placeholder="Search agents..."
+            className="border px-3 py-1 w-fit rounded-md"
+          />
+        </div>
+      </CommonHeader>
 
       {/* Table */}
-      <div className="w-full border-inherit">
+      <WrapperContainer>
         <TableFrame className="border rounded-lg" columns={agentColumn}>
           {agents.map((agent, idx) => (
             <TableRow key={agent._id || idx}>
@@ -75,7 +78,7 @@ function UserTable() {
             </TableRow>
           ))}
         </TableFrame>
-      </div>
+      </WrapperContainer>
 
       {/* Pagination Controls */}
       <PaginationControls
