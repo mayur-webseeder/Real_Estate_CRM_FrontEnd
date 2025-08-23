@@ -2,7 +2,7 @@ import React from "react";
 import axiosInstance from "./axiosInstance";
 import {
   setAgents,
-  setAllAgentLoading,
+  setIsUsersLoading,
   setTotalAgentPages,
   setPage,
   setSearch,
@@ -15,7 +15,7 @@ function useTeamService() {
   const { agent, isAllAgentLoading, page, limit, search, totalPages } =
     useSelector((state) => state.team);
   const fetchAgents = async () => {
-    dispatch(setAllAgentLoading(true));
+    dispatch(setIsUsersLoading(true));
     try {
       const res = await axiosInstance.get("/user/agents", {
         params: { page, limit, search },
@@ -26,18 +26,18 @@ function useTeamService() {
     } catch (error) {
       console.error("Error fetching agents:", error);
     } finally {
-      dispatch(setAllAgentLoading(false));
+      dispatch(setIsUsersLoading(false));
     }
   };
   const fetchAllAgents = async () => {
-    dispatch(setAllAgentLoading(true));
+    dispatch(setIsUsersLoading(true));
     try {
       const res = await axiosInstance.get("/user/agents/all");
       dispatch(setAgents(res.data.data));
     } catch (error) {
       console.error("Error fetching agents:", error);
     } finally {
-      dispatch(setAllAgentLoading(false));
+      dispatch(setIsUsersLoading(false));
     }
   };
   const addNewUser = async (data) => {

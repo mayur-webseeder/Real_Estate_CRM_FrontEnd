@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
-  isAllAgentLoading: false,
+  isUsersLoading: false,
   agents: [],
   page: 1,
   totalPages: 1,
@@ -11,8 +11,8 @@ const teamSlice = createSlice({
   name: "team",
   initialState,
   reducers: {
-    setAllAgentLoading: (state, action) => {
-      state.isAllAgentLoading = action.payload;
+    setIsUsersLoading: (state, action) => {
+      state.isUsersLoading = action.payload;
     },
     setAgents: (state, action) => {
       state.agents = action.payload;
@@ -30,7 +30,7 @@ const teamSlice = createSlice({
 });
 
 export const {
-  setAllAgentLoading,
+  setIsUsersLoading,
   setAgents,
   setTotalAgentPages,
   setPage,

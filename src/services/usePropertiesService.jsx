@@ -1,5 +1,6 @@
 import { toast } from "react-toastify";
 import {
+  setIsLoading,
   setIsSubmitting,
   setProperties,
   setProperty,
@@ -15,6 +16,7 @@ function usePropertiesService() {
   const nevigate = useNavigate();
 
   const fetchProperties = async () => {
+    dispatch(setIsLoading(true));
     try {
       const response = await axiosInstance.get(`/properties/p`, {
         params: {
@@ -30,9 +32,24 @@ function usePropertiesService() {
     } catch (error) {
       console.error(error);
       throw error;
+    } finally {
+      dispatch(setIsLoading(false));
+    }
+  };
+  const fetchAllProperties = async () => {
+    dispatch(setIsLoading(true));
+    try {
+      const response = await axiosInstance.get(`/properties/all`);
+      dispatch(setProperties(response.data));
+    } catch (error) {
+      console.error(error);
+      throw error;
+    } finally {
+      dispatch(setIsLoading(false));
     }
   };
   const fetchArchivedProperties = async () => {
+    dispatch(setIsLoading(true));
     try {
       const response = await axiosInstance.get(`/properties/archived/p`, {
         params: {
@@ -48,6 +65,8 @@ function usePropertiesService() {
     } catch (error) {
       console.error(error);
       throw error;
+    } finally {
+      dispatch(setIsLoading(false));
     }
   };
 
@@ -174,6 +193,7 @@ function usePropertiesService() {
     fetchArchivedProperties,
     toggleArchiveProperty,
     deleteProperty,
+    fetchAllProperties,
   };
 }
 

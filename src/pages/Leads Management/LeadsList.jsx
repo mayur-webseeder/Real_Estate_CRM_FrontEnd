@@ -14,10 +14,9 @@ import CommonHeader from "../../components/header/CommonHeader";
 import WrapperContainer from "../../components/WrapperContainer";
 import CommonInput from "../../components/input/CommonInput";
 function LeadsList() {
-  const { fetchLeads, toggelDisposeLead } = useLeadsService();
-  const { leads, search, page, limit, totalPages } = useSelector(
-    (state) => state.leads
-  );
+  const { fetchLeads, toggelDisposeLead, exportBulkLeads } = useLeadsService();
+  const { leads, search, page, limit, totalPages, isLeadsLoading } =
+    useSelector((state) => state.leads);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const icons = useIcon();
@@ -61,15 +60,21 @@ function LeadsList() {
       ></CommonHeader>
       <div className="border-inherit space-y-3">
         <div className="flex justify-between items-center w-full border-inherit">
-          <div className="bg-gray-200 p-2 px-4 rounded-lg">
+          <div className="bg-gradient-to-r from-blue-100 to-blue-50 px-4 py-2 rounded-lg text-blue-800 font-medium">
             Total of {leads.length} leads found
           </div>
           <div className="flex justify-center items-center gap-2 pr-4 w-fit border-inherit">
             <div className="flex items-center justify-center gap-2">
-              <CommonBtn className={"border  rounded-lg text-nowrap"}>
+              <LinkBtn
+                stub={"import"}
+                className={"border  rounded-lg text-nowrap"}
+              >
                 Bulk import{" "}
-              </CommonBtn>
-              <CommonBtn className={"border rounded-lg text-nowrap"}>
+              </LinkBtn>
+              <CommonBtn
+                action={exportBulkLeads}
+                className={"border rounded-lg text-nowrap"}
+              >
                 Bulk export{" "}
               </CommonBtn>
             </div>
@@ -84,7 +89,12 @@ function LeadsList() {
         </div>
 
         <WrapperContainer>
-          <TableFrame className="border rounded-lg" columns={leadsColumn}>
+          <TableFrame
+            className="border rounded-lg"
+            columns={leadsColumn}
+            isLoading={isLeadsLoading}
+            emptyMessage="No leads found"
+          >
             {leads.map((lead) => (
               <TableRow key={lead._id}>
                 <TableCell>

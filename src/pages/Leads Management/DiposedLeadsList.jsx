@@ -14,9 +14,8 @@ import CommonInput from "../../components/input/CommonInput";
 
 function DisposedLeadsList() {
   const { fetchDisposedLeads, toggelDisposeLead } = useLeadsService();
-  const { leads, search, page, limit, totalPages } = useSelector(
-    (state) => state.leads
-  );
+  const { leads, search, page, limit, totalPages, isLeadsLoading } =
+    useSelector((state) => state.leads);
   const dispatch = useDispatch();
   const icons = useIcon();
 
@@ -55,7 +54,7 @@ function DisposedLeadsList() {
       />
       <div className="border-inherit space-y-3 borih">
         <div className="flex justify-between items-center w-full border-inherit">
-          <div className="bg-gray-200 p-2 px-4 rounded-lg">
+          <div className="bg-gradient-to-r from-blue-100 to-blue-50 px-4 py-2 rounded-lg text-blue-800 font-medium">
             Total of {leads.length} disposed leads found
           </div>
           <div className="flex justify-center items-center gap-3 border-inherit">
@@ -70,38 +69,48 @@ function DisposedLeadsList() {
         </div>
 
         <WrapperContainer>
-          <TableFrame className="border rounded-lg" columns={leadsColumn}>
-            {leads.map((lead) => (
-              <TableRow key={lead._id}>
-                <TableCell>
-                  <input type="checkbox" />
-                </TableCell>
-                <TableCell>{lead.name}</TableCell>
-                <TableCell>{lead.mobileNumber}</TableCell>
-                <TableCell>{lead.email}</TableCell>
-                <TableCell>{lead.source}</TableCell>
-                <TableCell>{lead.status}</TableCell>
-                <TableCell>{lead?.assignedTo?.userName}</TableCell>
-                <TableCell>
-                  <div className="flex justify-center items-center gap-2 text-sm">
-                    <CommonBtn
-                      action={() => handelDisposeLead(lead._id, lead.isDispose)}
-                      className={"text-green-500 w-fit rounded-lg "}
-                      tooltip="restore"
-                    >
-                      {icons["disposeOut"]}
-                    </CommonBtn>
-                    <CommonBtn
-                      action={() => handelDisposeLead(lead._id, lead.isDispose)}
-                      className={"text-red-500 w-fit rounded-lg "}
-                      tooltip="delete"
-                    >
-                      {icons["delete"]}
-                    </CommonBtn>
-                  </div>
-                </TableCell>
-              </TableRow>
-            ))}
+          <TableFrame
+            className="border rounded-lg"
+            columns={leadsColumn}
+            isLoading={isLeadsLoading}
+            emptyMessage="No leads found"
+          >
+            {leads.length > 0 &&
+              leads.map((lead) => (
+                <TableRow key={lead._id}>
+                  <TableCell>
+                    <input type="checkbox" />
+                  </TableCell>
+                  <TableCell>{lead.name}</TableCell>
+                  <TableCell>{lead.mobileNumber}</TableCell>
+                  <TableCell>{lead.email}</TableCell>
+                  <TableCell>{lead.source}</TableCell>
+                  <TableCell>{lead.status}</TableCell>
+                  <TableCell>{lead?.assignedTo?.userName}</TableCell>
+                  <TableCell>
+                    <div className="flex justify-center items-center gap-2 text-sm">
+                      <CommonBtn
+                        action={() =>
+                          handelDisposeLead(lead._id, lead.isDispose)
+                        }
+                        className={"text-green-500 w-fit rounded-lg "}
+                        tooltip="restore"
+                      >
+                        {icons["disposeOut"]}
+                      </CommonBtn>
+                      <CommonBtn
+                        action={() =>
+                          handelDisposeLead(lead._id, lead.isDispose)
+                        }
+                        className={"text-red-500 w-fit rounded-lg "}
+                        tooltip="delete"
+                      >
+                        {icons["delete"]}
+                      </CommonBtn>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
           </TableFrame>
         </WrapperContainer>
       </div>

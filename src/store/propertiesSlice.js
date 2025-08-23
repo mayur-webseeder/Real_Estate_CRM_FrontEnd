@@ -9,6 +9,7 @@ const initialState = {
   minPrice: null,
   maxPrice: null,
   statusFilter: "available",
+  isLoading: false,
   //   sortBy = "createdAt",
   //   sortOrder = "desc",
   isSubmitting: false,
@@ -45,6 +46,9 @@ const propertiesSlice = createSlice({
     setIsSubmitting: (state, action) => {
       state.isSubmitting = action.payload;
     },
+    setIsLoading: (state, action) => {
+      state.isLoading = action.payload;
+    },
   },
 });
 
@@ -58,5 +62,6 @@ export const {
   setPropertiesMinPrice,
   setPropertiesMaxPrice,
   setIsSubmitting,
+  setIsLoading,
 } = propertiesSlice.actions;
 export default propertiesSlice.reducer;

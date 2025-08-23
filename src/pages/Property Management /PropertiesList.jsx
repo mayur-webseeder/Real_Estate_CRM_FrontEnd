@@ -27,6 +27,7 @@ function PropertyList() {
     statusFilter,
     page,
     totalPropertiesPage,
+    isLoading,
   } = useSelector((state) => state.properties);
   const { fetchProperties, toggleArchiveProperty } = usePropertiesService();
   const icons = useIcon();
@@ -70,7 +71,7 @@ function PropertyList() {
       {/* Table */}{" "}
       <div className="border-inherit space-y-3">
         <div className="flex justify-between items-center w-full border-inherit">
-          <div className="bg-gray-200 p-2 px-4 rounded-lg">
+          <div className="bg-gradient-to-r from-blue-100 to-blue-50 px-4 py-2 rounded-lg text-blue-800 font-medium">
             Total of {properties.length} Properties found
           </div>
           <div className="flex justify-center items-center gap-3 border-inherit">
@@ -92,8 +93,13 @@ function PropertyList() {
         </div>
         <WrapperContainer>
           {" "}
-          <TableFrame className="border rounded-lg" columns={columns}>
-            {properties.length > 0 ? (
+          <TableFrame
+            className="border rounded-lg"
+            columns={columns}
+            emptyMessage="No property found"
+            isLoading={isLoading}
+          >
+            {properties.length > 0 &&
               properties.map((property) => (
                 <TableRow key={property.id || property._id}>
                   <TableCell>
@@ -130,14 +136,7 @@ function PropertyList() {
                     </div>
                   </TableCell>
                 </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <div className="flex justify-center items-center w-full">
-                  No properties found
-                </div>
-              </TableRow>
-            )}
+              ))}
           </TableFrame>
         </WrapperContainer>
       </div>

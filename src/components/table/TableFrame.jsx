@@ -1,4 +1,5 @@
 import React, { Children, cloneElement } from "react";
+import TableShimmer from "../loaders/TableShimmer";
 
 // Table Container Component
 const TableFrame = ({
@@ -6,18 +7,13 @@ const TableFrame = ({
   compact = false,
   className = "",
   emptyMessage = "No data available",
+  isLoading,
   children,
 }) => {
-  if (!children) {
-    return <div className="text-center py-8 text-gray-500">{emptyMessage}</div>;
-  }
-
   return (
-    <div
-      className={`${className} overflow-x-auto  overflow-hidden border-inherit`}
-    >
-      <table className="min-w-full bg-white  border-inherit rounded-xl shadow-sm">
-        <thead className="border-inherit">
+    <div className={`${className} overflow-x-auto border-inherit`}>
+      <table className="min-w-full border-inherit rounded-xl h-full">
+        <thead className="border-inherit ">
           <tr className="bg-gray-50 border-b border-inherit">
             {columns.map((column, index) => (
               <th
@@ -32,8 +28,19 @@ const TableFrame = ({
             ))}
           </tr>
         </thead>
-        <tbody className="border-inherit">{children}</tbody>
+        <tbody className="border-inherit">
+          {isLoading ? (
+            <TableShimmer rows={3} columns={columns.length} />
+          ) : (
+            children
+          )}
+        </tbody>
       </table>
+      {!isLoading && !children && (
+        <div className="flex justify-center text-center items-center w-full p-8">
+          <span className="m-auto">{emptyMessage}</span>
+        </div>
+      )}
     </div>
   );
 };

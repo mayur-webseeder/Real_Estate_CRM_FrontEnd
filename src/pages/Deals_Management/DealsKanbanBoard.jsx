@@ -4,24 +4,61 @@ import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { useDispatch, useSelector } from "react-redux";
 
 import useDealsService from "../../services/useDealsService";
-import { setDealsColumns } from "../../store/dealsSlice";
+import {
+  resetFilters,
+  setAssignedTo,
+  setDealsColumns,
+  setEndDate,
+  setMaxValue,
+  setMinValue,
+  setPropertyId,
+  setStartDate,
+} from "../../store/dealsSlice";
 import useIcon from "../../hooks/useIcon";
 import EditDealPopup from "./EditDealPopup";
 import CommonBtn from "../../components/buttons/CommonBtn";
 import CommonHeader from "../../components/header/CommonHeader";
+import ConfirmationBox from "../../components/utils/ConfirmationBox";
+
+import CommonSelect from "../../components/input/CommonSelect";
+import useTeamService from "../../services/useTeamService";
+import usePropertiesService from "../../services/usePropertiesService";
+import CommonInput from "../../components/input/CommonInput";
+import CancelBtn from "../../components/buttons/CancelBtn";
 
 export default function DealsKanban() {
-  const { stages, columns, isLoading } = useSelector((state) => state.deals);
-  const dispatch = useDispatch();
-  const { fetchBoard, updateStage } = useDealsService();
-  const icons = useIcon();
-
+  const {
+    stages,
+    columns,
+    assignedTo,
+    propertyId,
+    startDate,
+    endDate,
+    minValue,
+    maxValue,
+    isLoading,
+  } = useSelector((state) => state.deals);
+  const { agents } = useSelector((state) => state.team);
+  const { properties } = useSelector((state) => state.properties);
   const [isOpen, setIsOpen] = useState(false);
   const [editForm, setEditForm] = useState({});
+  const [showConfirmBox, setShowConfirmBox] = useState({
+    status: false,
+    data: {},
+  });
+  const dispatch = useDispatch();
+  const icons = useIcon();
 
+  const { fetchBoard, updateStage } = useDealsService();
+  const { fetchAllAgents } = useTeamService();
+  const { fetchAllProperties } = usePropertiesService();
+  useEffect(() => {
+    fetchAllAgents();
+    fetchAllProperties();
+  }, []);
   useEffect(() => {
     fetchBoard();
-  }, []);
+  }, [propertyId, startDate, endDate, minValue, maxValue, assignedTo]);
 
   const columnTotals = useMemo(() => {
     const totals = {};
@@ -63,6 +100,7 @@ export default function DealsKanban() {
       const data = await updateStage(draggableId, destination.droppableId);
       // set active deal for inline editing
       handleEdit(data);
+      setShowConfirmBox({ status: false, data: {} });
     } catch (error) {
       console.error("Failed to update stage:", error);
       dispatch(setDealsColumns(prev));
@@ -73,7 +111,7 @@ export default function DealsKanban() {
     setIsOpen(true);
     setEditForm(deal);
   };
-  const handleSave = (dealId, stageKey) => {
+  const handleSave = () => {
     setIsOpen(null);
   };
 
@@ -82,6 +120,21 @@ export default function DealsKanban() {
     setEditForm({});
   };
 
+  const handleDragEnd = (result) => {
+    const { destination } = result;
+
+    if (
+      destination.droppableId === "closed_won" ||
+      destination.droppableId === "closed_lost"
+    ) {
+      setShowConfirmBox({ status: true, data: result });
+    } else {
+      onDragEnd(result);
+    }
+  };
+  const confirmSave = () => {
+    onDragEnd(showConfirmBox.data);
+  };
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-64">
@@ -92,16 +145,99 @@ export default function DealsKanban() {
       </div>
     );
   }
-
   return (
-    <div className="min-h-screen w-full border-inherit">
+    <div className="min-h-screen w-full border-inherit ">
+      {/* Header */}
       <CommonHeader
-        title={<span>Deals Pipeline</span>}
-        subTitle={<span>Manage and track your sales opportunities</span>}
-      ></CommonHeader>
+        title={
+          <span className="text-2xl font-bold text-gray-900">
+            Deals Pipeline
+          </span>
+        }
+        subTitle={
+          <span className="text-gray-600">
+            Manage and track your sales opportunities efficiently
+          </span>
+        }
+      />
 
-      <div className="flex flex-wrap gap-3 pb-10 border-inherit">
-        <DragDropContext onDragEnd={onDragEnd}>
+      {/* Filters Section */}
+      <div className="bg-white shadow-sm rounded-xl p-4 mb-6 border  border-inherit">
+        <div className="flex flex-wrap justify-between gap-4 items-center  border-inherit">
+          <div className="bg-gradient-to-r from-blue-100 to-blue-50 px-4 py-2 rounded-lg text-blue-800 font-medium">
+            Total Deals:{" "}
+            <span className="font-bold">
+              {stages.reduce((acc, s) => acc + (columns[s]?.length || 0), 0)}
+            </span>
+          </div>
+
+          <div className="flex flex-wrap gap-3 items-center  border-inherit">
+            {/* Date Filters */}
+            <div className="flex gap-2  border-inherit">
+              <CommonInput
+                className="px-3 py-2 rounded-lg border"
+                type="date"
+                name="startDate"
+                onChange={(e) => dispatch(setStartDate(e.target.value))}
+                value={startDate}
+              />
+              <CommonInput
+                className="px-3 py-2 rounded-lg border"
+                type="date"
+                name="endDate"
+                value={endDate}
+                onChange={(e) => dispatch(setEndDate(e.target.value))}
+              />
+              {/* Select Filters */}
+              <CommonSelect
+                name="property"
+                onChange={(e) => dispatch(setPropertyId(e.target.value))}
+                options={properties?.map((pr) => ({
+                  label: pr.title,
+                  value: pr._id,
+                }))}
+              />
+              <CommonSelect
+                name="agents"
+                onChange={(e) => dispatch(setAssignedTo(e.target.value))}
+                options={agents?.map((ag) => ({
+                  label: ag.userName,
+                  value: ag._id,
+                }))}
+              />
+            </div>
+
+            {/* Value Filters */}
+            <div className="flex gap-2 border-inherit">
+              <CommonInput
+                className="px-3 py-2 rounded-lg border"
+                type="number"
+                name="minValue"
+                placeholder="Min ₹"
+                onChange={(e) => dispatch(setMinValue(e.target.value))}
+              />
+              <CommonInput
+                className="px-3 py-2 rounded-lg border"
+                type="number"
+                name="maxValue"
+                placeholder="Max ₹"
+                onChange={(e) => dispatch(setMaxValue(e.target.value))}
+              />
+            </div>
+
+            {/* Reset Filters Button */}
+            <CancelBtn
+              onClick={() => dispatch(resetFilters())} // or dispatch(resetFilters())
+            >
+              Clear Filters
+            </CancelBtn>
+          </div>
+        </div>
+      </div>
+
+      {/* Kanban Columns */}
+      <div className="flex sm:justify-start gap-6 pb-10 border-inherit max-w-[70rem] overflow-auto ">
+        <DragDropContext onDragEnd={handleDragEnd}>
           {stages.map((stageKey) => {
             const items = columns[stageKey] || [];
             const title = stageKey
@@ -114,25 +250,25 @@ export default function DealsKanban() {
                   <div
                     ref={provided.innerRef}
                     {...provided.droppableProps}
-                    className={`rounded-lg border-2 border-dashed border-inherit p-4 min-w-[265px] max-w-[280px] min-h-[500px] shadow-sm transition-all duration-200 ${
+                    className={`rounded-xl border border-inherit bg-white p-4 min-w-[280px] max-w-[300px] min-h-[500px] shadow-sm transition-all duration-200 ${
                       snapshot.isDraggingOver
-                        ? "bg-blue-50 border-blue-300 shadow-md"
+                        ? "bg-blue-50 border-blue-400 shadow-md"
                         : "hover:shadow-md"
                     }`}
                   >
-                    {/* Header */}
-                    <div className="flex items-center justify-between mb-4 pb-3 border-b border-inherit">
+                    {/* Stage Header */}
+                    <div className="flex items-center justify-between mb-4 pb-3 border-b ">
                       <h2 className="font-semibold text-gray-800 text-sm uppercase tracking-wide">
                         {title}
                       </h2>
-                      <span className=" text-gray-700 text-xs font-medium px-2 py-1 rounded-full">
+                      <span className="bg-gray-100 text-gray-700 text-xs font-medium px-2 py-1 rounded-full">
                         {items.length}
                       </span>
                     </div>
 
                     {/* Totals */}
-                    <div className="mb-4 p-3 bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg border border-green-100">
-                      <div className="text-xs text-green-700 font-medium mb-1">
+                    <div className="mb-4 p-2 bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg border border-green-100">
+                      <div className="text-xs text-green-700 font-medium">
                         Total Value
                       </div>
                       <div className="text-lg font-bold text-green-800">
@@ -140,7 +276,7 @@ export default function DealsKanban() {
                       </div>
                     </div>
 
-                    {/* Deals */}
+                    {/* Deal Cards */}
                     <div className="space-y-3 text-start">
                       {items.map((deal, index) => (
                         <Draggable
@@ -153,35 +289,33 @@ export default function DealsKanban() {
                               ref={provided.innerRef}
                               {...provided.draggableProps}
                               {...provided.dragHandleProps}
-                              className={`bg-white rounded-lg p-4 border border-gray-200 transition-all duration-200 ${
+                              className={`bg-white rounded-lg p-4 border transition-all duration-200 ${
                                 snapshot.isDragging
-                                  ? "shadow-lg scale-105 rotate-2 border-blue-300"
-                                  : "hover:shadow-md hover:border-gray-300"
+                                  ? "shadow-lg scale-105 border-blue-300"
+                                  : "hover:shadow-md border-gray-200"
                               }`}
                             >
-                              <>
-                                <div className="flex items-start justify-between mb-3">
-                                  <h3 className="font-medium text-gray-900 text-sm leading-tight flex-1 mr-2">
-                                    {deal.title}
-                                  </h3>
-                                  <div className="flex-shrink-0">
-                                    {icons["drag"]}
-                                  </div>
+                              <div className="flex items-start justify-between mb-2">
+                                <h3 className="font-medium text-gray-900 text-sm leading-tight flex-1 mr-2">
+                                  {deal.title}
+                                </h3>
+                                <div className="flex-shrink-0">
+                                  {icons["drag"]}
                                 </div>
-                                <div className="flex items-center justify-between space-x-1">
-                                  <span className="text-sm font-semibold text-green-700">
-                                    ₹
-                                    {(
-                                      deal.finalValue ??
-                                      deal.expectedValue ??
-                                      0
-                                    ).toLocaleString("en-IN")}
-                                  </span>
-                                  <CommonBtn action={() => handleEdit(deal)}>
-                                    {icons["edit"]}
-                                  </CommonBtn>
-                                </div>
-                              </>
+                              </div>
+                              <div className="flex items-center justify-between">
+                                <span className="text-sm font-semibold text-green-700">
+                                  ₹
+                                  {(
+                                    deal.finalValue ??
+                                    deal.expectedValue ??
+                                    0
+                                  ).toLocaleString("en-IN")}
+                                </span>
+                                <CommonBtn action={() => handleEdit(deal)}>
+                                  {icons["edit"]}
+                                </CommonBtn>
+                              </div>
                             </div>
                           )}
                         </Draggable>
@@ -196,12 +330,6 @@ export default function DealsKanban() {
           })}
         </DragDropContext>
       </div>
-      <EditDealPopup
-        isOpen={isOpen}
-        onSave={handleSave}
-        onClose={handleCancel}
-        deal={editForm}
-      />
     </div>
   );
 }

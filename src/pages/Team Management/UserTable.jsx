@@ -13,7 +13,7 @@ import CommonHeader from "../../components/header/CommonHeader";
 function UserTable() {
   const dispatch = useDispatch();
   const { fetchAgents } = useTeamService();
-  const { agents, page, totalPages, search } = useSelector(
+  const { agents, page, totalPages, search, isUsersLoading } = useSelector(
     (state) => state.team
   );
 
@@ -64,19 +64,25 @@ function UserTable() {
 
       {/* Table */}
       <WrapperContainer>
-        <TableFrame className="border rounded-lg" columns={agentColumn}>
-          {agents.map((agent, idx) => (
-            <TableRow key={agent._id || idx}>
-              <TableCell>
-                <input type="checkbox" />
-              </TableCell>
-              <TableCell>{agent.userName}</TableCell>
-              <TableCell>{agent.email}</TableCell>
-              <TableCell>{agent.mobileNumber}</TableCell>
-              <TableCell>{agent.role}</TableCell>
-              <TableCell></TableCell>
-            </TableRow>
-          ))}
+        <TableFrame
+          className="border rounded-lg"
+          columns={agentColumn}
+          isLoading={isUsersLoading}
+          emptyMessage="No User found"
+        >
+          {agents.length > 0 &&
+            agents.map((agent, idx) => (
+              <TableRow key={agent._id || idx}>
+                <TableCell>
+                  <input type="checkbox" />
+                </TableCell>
+                <TableCell>{agent.userName}</TableCell>
+                <TableCell>{agent.email}</TableCell>
+                <TableCell>{agent.mobileNumber}</TableCell>
+                <TableCell>{agent.role}</TableCell>
+                <TableCell></TableCell>
+              </TableRow>
+            ))}
         </TableFrame>
       </WrapperContainer>
 

@@ -24,6 +24,9 @@ import EditProperty from "../pages/Property Management /EditProperty";
 import Deals_Manager from "../pages/Deals_Management/Deals_Manager";
 import AddDeal from "../pages/Deals_Management/AddDeal";
 import DealsKanbanBoard from "../pages/Deals_Management/DealsKanbanBoard";
+import LeadExportImport from "../components/utils/LeadsBulkImport";
+import FollowupsManager from "../pages/Followups_management/FollowupsManager";
+import FollowupsDashboard from "../pages/Followups_management/FollowupsDashboard";
 function Router() {
   return (
     <Routes>
@@ -94,6 +97,14 @@ function Router() {
             element={
               <ProtectedRoute>
                 <LeadProfile />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="import"
+            element={
+              <ProtectedRoute>
+                <LeadExportImport />
               </ProtectedRoute>
             }
           />
@@ -202,6 +213,16 @@ function Router() {
             element={
               <ProtectedRoute>
                 <AddDeal />
+              </ProtectedRoute>
+            }
+          />
+        </Route>
+        <Route path="followups_management" element={<FollowupsManager />}>
+          <Route
+            path=""
+            element={
+              <ProtectedRoute>
+                <FollowupsDashboard />
               </ProtectedRoute>
             }
           />

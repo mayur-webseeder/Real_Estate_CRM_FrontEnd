@@ -27,6 +27,7 @@ function ArchivedProperties() {
     statusFilter,
     page,
     totalPropertiesPage,
+    isLoading,
   } = useSelector((state) => state.properties);
   const { fetchArchivedProperties, toggleArchiveProperty } =
     usePropertiesService();
@@ -71,7 +72,7 @@ function ArchivedProperties() {
       {/* Table */}
       <div className="border-inherit space-y-3">
         <div className="flex justify-between items-center w-full border-inherit">
-          <div className="bg-gray-200 p-2 px-4 rounded-lg">
+          <div className="bg-gradient-to-r from-blue-100 to-blue-50 px-4 py-2 rounded-lg text-blue-800 font-medium">
             Total of {properties.length} archived properties found
           </div>
           <div className="flex justify-center items-center gap-3 border-inherit">
@@ -92,8 +93,13 @@ function ArchivedProperties() {
           </div>{" "}
         </div>
         <WrapperContainer>
-          <TableFrame className="border rounded-lg" columns={columns}>
-            {properties.length > 0 ? (
+          <TableFrame
+            className="border rounded-lg"
+            columns={columns}
+            emptyMessage="           No properties found"
+            isLoading={isLoading}
+          >
+            {properties.length > 0 &&
               properties.map((property) => (
                 <TableRow key={property.id || property._id}>
                   <TableCell>
@@ -130,14 +136,7 @@ function ArchivedProperties() {
                     </div>
                   </TableCell>
                 </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <div className="flex justify-center items-center w-full">
-                  No properties found
-                </div>
-              </TableRow>
-            )}
+              ))}
           </TableFrame>
         </WrapperContainer>
       </div>

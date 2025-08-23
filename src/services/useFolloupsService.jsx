@@ -4,7 +4,12 @@ import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { setLeadFollowUps } from "../store/leadsSlice";
 import { useNavigate } from "react-router";
-import { resetFollowUpsForm } from "../store/followupsSlice";
+import {
+  resetFollowUpsForm,
+  setFollowups,
+  setFollowupsTotalPage,
+  setIsFollowupsLoading,
+} from "../store/followupsSlice";
 
 function useFolloupsService() {
   const dispatch = useDispatch();
@@ -26,6 +31,24 @@ function useFolloupsService() {
     } finally {
     }
   };
+  const fetchFollowups = async (id) => {
+    dispatch(setIsFollowupsLoading(true));
+    try {
+      const result = await axiosInstance.get(`/folloups/p`);
+      if (result.status == 200) {
+        dispatch(setFollowups(result.data.followups));
+        dispatch(setFollowupsTotalPage(result.data.totalPages));
+      }
+
+      return result.data;
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to get lead folloups");
+      throw error;
+    } finally {
+      dispatch(setIsFollowupsLoading(false));
+    }
+  };
   const getFolloupsByLeadId = async (id) => {
     try {
       const result = await axiosInstance.get(`/folloups/lead/${id}`);
@@ -40,7 +63,7 @@ function useFolloupsService() {
       throw error;
     }
   };
-  return { addFolloups, getFolloupsByLeadId };
+  return { addFolloups, getFolloupsByLeadId, fetchFollowups };
 }
 
 export default useFolloupsService;

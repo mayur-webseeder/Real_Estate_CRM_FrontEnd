@@ -10,7 +10,8 @@ const initialState = {
     assignedTo: "",
     companyId: "",
   },
-  isLeadLoading: false,
+  isLeadsLoading: false,
+  isLeadSubmitting: false,
   leads: [],
   lead: {},
   search: "",
@@ -41,7 +42,7 @@ const leadsSlice = createSlice({
       state.page = action.payload;
     },
     setIsLeadsLoading: (state, action) => {
-      state.isLeadLoading = action.payload;
+      state.isLeadsLoading = action.payload;
     },
     setLeadId: (state, action) => {
       state.leadId = action.payload;
@@ -54,6 +55,9 @@ const leadsSlice = createSlice({
     },
     setLeadData: (state, action) => {
       state.lead = action.payload;
+    },
+    setIsLeadSubmitting: (state, action) => {
+      state.isLeadSubmitting = action.payload;
     },
   },
 });
@@ -68,5 +72,6 @@ export const {
   setIsEditingLead,
   setLeadFollowUps,
   setLeadData,
+  setIsLeadSubmitting,
 } = leadsSlice.actions;
 export default leadsSlice.reducer;
