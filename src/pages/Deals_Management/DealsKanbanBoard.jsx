@@ -16,7 +16,6 @@ import {
 } from "../../store/dealsSlice";
 import useIcon from "../../hooks/useIcon";
 import EditDealPopup from "./EditDealPopup";
-import CommonBtn from "../../components/buttons/CommonBtn";
 import CommonHeader from "../../components/header/CommonHeader";
 import ConfirmationBox from "../../components/utils/ConfirmationBox";
 
@@ -25,31 +24,32 @@ import useTeamService from "../../services/useTeamService";
 import usePropertiesService from "../../services/usePropertiesService";
 import CommonInput from "../../components/input/CommonInput";
 import CancelBtn from "../../components/buttons/CancelBtn";
+import DealCard from "./components/DealCard";
 
 export default function DealsKanban() {
-  const {
-    stages,
-    columns,
-    assignedTo,
-    propertyId,
-    startDate,
-    endDate,
-    minValue,
-    maxValue,
-    isLoading,
-  } = useSelector((state) => state.deals);
+  const stages = useSelector((state) => state.deals.stages);
+  const columns = useSelector((state) => state.deals.columns);
+  const assignedTo = useSelector((state) => state.deals.assignedTo);
+  const propertyId = useSelector((state) => state.deals.propertyId);
+  const startDate = useSelector((state) => state.deals.startDate);
+  const endDate = useSelector((state) => state.deals.endDate);
+  const minValue = useSelector((state) => state.deals.minValue);
+  const maxValue = useSelector((state) => state.deals.maxValue);
+  const isDealSubmitting = useSelector((state) => state.deals.isDealSubmitting);
+
   const { agents } = useSelector((state) => state.team);
   const { properties } = useSelector((state) => state.properties);
-  const [isOpen, setIsOpen] = useState(false);
+  const [isEditOpen, setIsEditOpen] = useState(false);
   const [editForm, setEditForm] = useState({});
   const [showConfirmBox, setShowConfirmBox] = useState({
     status: false,
     data: {},
   });
+
   const dispatch = useDispatch();
   const icons = useIcon();
 
-  const { fetchBoard, updateStage } = useDealsService();
+  const { fetchBoard, updateStage, reopenDeal } = useDealsService();
   const { fetchAllAgents } = useTeamService();
   const { fetchAllProperties } = usePropertiesService();
   useEffect(() => {
@@ -107,16 +107,15 @@ export default function DealsKanban() {
     }
   };
   const handleEdit = (deal) => {
-    console.log({ deal });
-    setIsOpen(true);
+    setIsEditOpen(true);
     setEditForm(deal);
   };
   const handleSave = () => {
-    setIsOpen(null);
+    setIsEditOpen(null);
   };
 
   const handleCancel = () => {
-    setIsOpen(false);
+    setIsEditOpen(false);
     setEditForm({});
   };
 
@@ -132,10 +131,11 @@ export default function DealsKanban() {
       onDragEnd(result);
     }
   };
-  const confirmSave = () => {
+  const confirmSave = async () => {
     onDragEnd(showConfirmBox.data);
   };
-  if (isLoading) {
+
+  if (isDealSubmitting) {
     return (
       <div className="flex items-center justify-center h-64">
         <div className="flex flex-col items-center space-y-4">
@@ -145,6 +145,7 @@ export default function DealsKanban() {
       </div>
     );
   }
+
   return (
     <div className="min-h-screen w-full border-inherit ">
       {/* Header */}
@@ -279,46 +280,12 @@ export default function DealsKanban() {
                     {/* Deal Cards */}
                     <div className="space-y-3 text-start">
                       {items.map((deal, index) => (
-                        <Draggable
+                        <DealCard
                           key={deal.id}
-                          draggableId={deal.id}
+                          deal={deal}
                           index={index}
-                        >
-                          {(provided, snapshot) => (
-                            <div
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                              className={`bg-white rounded-lg p-4 border transition-all duration-200 ${
-                                snapshot.isDragging
-                                  ? "shadow-lg scale-105 border-blue-300"
-                                  : "hover:shadow-md border-gray-200"
-                              }`}
-                            >
-                              <div className="flex items-start justify-between mb-2">
-                                <h3 className="font-medium text-gray-900 text-sm leading-tight flex-1 mr-2">
-                                  {deal.title}
-                                </h3>
-                                <div className="flex-shrink-0">
-                                  {icons["drag"]}
-                                </div>
-                              </div>
-                              <div className="flex items-center justify-between">
-                                <span className="text-sm font-semibold text-green-700">
-                                  ₹
-                                  {(
-                                    deal.finalValue ??
-                                    deal.expectedValue ??
-                                    0
-                                  ).toLocaleString("en-IN")}
-                                </span>
-                                <CommonBtn action={() => handleEdit(deal)}>
-                                  {icons["edit"]}
-                                </CommonBtn>
-                              </div>
-                            </div>
-                          )}
-                        </Draggable>
+                          handleEdit={handleEdit}
+                        />
                       ))}
                     </div>
 
@@ -330,6 +297,22 @@ export default function DealsKanban() {
           })}
         </DragDropContext>
       </div>
+      <EditDealPopup
+        isOpen={isEditOpen}
+        onSave={handleSave}
+        onClose={handleCancel}
+        deal={editForm}
+      />
+      <ConfirmationBox
+        isOpen={showConfirmBox.status}
+        title="Confirm Stage Update"
+        message={`Are you sure you want to move this deal to "${showConfirmBox.data?.destination?.droppableId?.replaceAll(
+          "_",
+          " "
+        )}"?`}
+        onConfirm={confirmSave}
+        onCancel={() => setShowConfirmBox({ status: false, data: {} })}
+      />
     </div>
   );
 }

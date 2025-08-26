@@ -1,7 +1,7 @@
 import React from "react";
 import axiosInstance from "./axiosInstance";
 import { toast } from "react-toastify";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setLeadFollowUps } from "../store/leadsSlice";
 import { useNavigate } from "react-router";
 import {
@@ -12,6 +12,9 @@ import {
 } from "../store/followupsSlice";
 
 function useFolloupsService() {
+  const { page, followUps, status, assignedTo } = useSelector(
+    (state) => state.followups
+  );
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -34,7 +37,13 @@ function useFolloupsService() {
   const fetchFollowups = async (id) => {
     dispatch(setIsFollowupsLoading(true));
     try {
-      const result = await axiosInstance.get(`/folloups/p`);
+      const result = await axiosInstance.get(`/folloups/p`, {
+        params: {
+          status,
+          assignedTo,
+          page,
+        },
+      });
       if (result.status == 200) {
         dispatch(setFollowups(result.data.followups));
         dispatch(setFollowupsTotalPage(result.data.totalPages));
@@ -63,7 +72,41 @@ function useFolloupsService() {
       throw error;
     }
   };
-  return { addFolloups, getFolloupsByLeadId, fetchFollowups };
+  const deleteFolloups = async (id) => {
+    try {
+      const result = await axiosInstance.delete(`/folloups/${id}`);
+      if (result.status == 200) {
+        const filter = followUps.filter((f) => f._id !== id);
+        dispatch(setFollowups(filter));
+        toast.success(result.data.message);
+      }
+      return result.data;
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to delete folloups");
+      throw error;
+    }
+  };
+  const updateFolloups = async (id) => {
+    try {
+      const result = await axiosInstance.put(`/folloups/${id}`);
+      if (result.status == 200) {
+        toast.success("successfull update followups");
+      }
+      return result.data;
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to update followups");
+      throw error;
+    }
+  };
+  return {
+    addFolloups,
+    getFolloupsByLeadId,
+    fetchFollowups,
+    deleteFolloups,
+    updateFolloups,
+  };
 }
 
 export default useFolloupsService;

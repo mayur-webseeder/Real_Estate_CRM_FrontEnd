@@ -16,7 +16,7 @@ import LeadProfile from "../pages/Leads Management/LeadProfile";
 import DisposedLeadsList from "../pages/Leads Management/DiposedLeadsList";
 import LeadsList from "../pages/Leads Management/LeadsList";
 import EditLead from "../pages/Leads Management/EditLead";
-import AddFollowUp from "../pages/Leads Management/AddFollowUp";
+import AddFollowUp from "../pages/Followups_management/AddFollowUp";
 import PropertyDetails from "../pages/Property Management /PropertyDetails";
 import PropertyList from "../pages/Property Management /PropertiesList";
 import ArchivedProperties from "../pages/Property Management /ArchivedProperties";
@@ -27,6 +27,8 @@ import DealsKanbanBoard from "../pages/Deals_Management/DealsKanbanBoard";
 import LeadExportImport from "../components/utils/LeadsBulkImport";
 import FollowupsManager from "../pages/Followups_management/FollowupsManager";
 import FollowupsDashboard from "../pages/Followups_management/FollowupsDashboard";
+import ReopenDeal from "../pages/Deals_Management/components/ReopenDeal";
+import DealDetails from "../pages/Deals_Management/DealDetails";
 function Router() {
   return (
     <Routes>
@@ -213,6 +215,22 @@ function Router() {
             element={
               <ProtectedRoute>
                 <AddDeal />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="deal/:dealId/details"
+            element={
+              <ProtectedRoute>
+                <DealDetails />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="deal/:dealId/reopen"
+            element={
+              <ProtectedRoute>
+                <ReopenDeal />
               </ProtectedRoute>
             }
           />

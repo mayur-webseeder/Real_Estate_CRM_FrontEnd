@@ -8,7 +8,7 @@ const CommonSelect = ({
   icon: Icon,
 }) => {
   return (
-    <div className="flex flex-col items-start gap-2 w-full border-inherit">
+    <div className="flex flex-col items-start gap-2 w-fit border-inherit">
       {label && (
         <label htmlFor={name} className="font-semibold text-sm text-gray-700">
           {label}

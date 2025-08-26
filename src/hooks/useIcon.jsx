@@ -9,6 +9,7 @@ import {
   MdOutlineMoveUp,
   MdOutlineSettings,
   MdOutlineSupportAgent,
+  MdRefresh,
   MdSpaceDashboard,
   MdUnarchive,
 } from "react-icons/md";
@@ -44,7 +45,7 @@ import {
 import { MdContactEmergency, MdDeleteOutline } from "react-icons/md";
 import { RiChatFollowUpLine } from "react-icons/ri";
 import { LuCloudUpload } from "react-icons/lu";
-import { ImClock, ImSpinner6 } from "react-icons/im";
+import { ImClock, ImInfo, ImSpinner6 } from "react-icons/im";
 import { TbArchive, TbArchiveOff, TbUserDollar } from "react-icons/tb";
 import { CiEdit } from "react-icons/ci";
 import { RiDragDropLine } from "react-icons/ri";
@@ -86,8 +87,9 @@ const useIcon = () => {
     // H
     home: <MdHome className="w-8 h-8 text-white" />,
     helpCircle: <MdHelpOutline />,
+
     // I
-    // --
+    info: <ImInfo />,
 
     // J
     // --
@@ -121,7 +123,7 @@ const useIcon = () => {
 
     // R
     rupee: <BsCurrencyRupee />,
-
+    refresh: <MdRefresh />,
     // S
     sidebar: <BsLayoutTextSidebarReverse />,
     settings: <MdOutlineSettings />,

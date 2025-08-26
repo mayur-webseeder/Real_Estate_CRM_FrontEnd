@@ -15,10 +15,13 @@ export const defaultFollowUpFormData = {
 const initialState = {
   followUpFormData: { ...defaultFollowUpFormData },
   isFollowupsLoading: false,
+  isFollowupSubmitting: false,
   followups: [],
   page: 1,
   totalFollowupsPages: 1,
   limit: 10,
+  assignedTo: "",
+  status: "",
 };
 
 const followUpsSlice = createSlice({
@@ -40,6 +43,15 @@ const followUpsSlice = createSlice({
     setIsFollowupsLoading: (state, action) => {
       state.isFollowupsLoading = action.payload;
     },
+    setFolloupsAssginedTo: (state, action) => {
+      state.assignedTo = action.payload;
+    },
+    setFolloupsStatus: (state, action) => {
+      state.status = action.payload;
+    },
+    setIsfollowupSubmitting: (state, action) => {
+      state.isFollowupSubmitting = action.payload;
+    },
   },
 });
 
@@ -49,6 +61,9 @@ export const {
   setFollowups,
   setFollowupsTotalPage,
   setIsFollowupsLoading,
+  setFolloupsAssginedTo,
+  setFolloupsStatus,
+  setIsfollowupSubmitting,
 } = followUpsSlice.actions;
 
 export default followUpsSlice.reducer;
