@@ -77,9 +77,9 @@ function FollowupFormModel({
             <AuthorizedOnly>
               <CommonSelect
                 className={"py-2 px-4"}
-                label="Assin To"
+                label="AssinTo"
                 name="assignedTo"
-                value={data.followupsDate}
+                value={data.assignedTo}
                 onChange={handleChange}
                 disabled={isSubmitting}
                 options={agents?.map((ag) => ({

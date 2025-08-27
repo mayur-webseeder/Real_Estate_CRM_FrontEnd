@@ -20,7 +20,7 @@ const ReopenDeal = () => {
     newStage: "qualification",
     expectedValue: "",
     expectedCloseDate: "",
-    note: "",
+    notes: "",
   });
   const { reopenDeal } = useDealsService();
   const { dealId } = useParams();
@@ -44,7 +44,7 @@ const ReopenDeal = () => {
   return (
     <div
       onClick={handleClose}
-      className=" fixed top-0 bottom-0 left-0 right-0 flex justify-center items-center z-50 h-screen border-inherit text-start"
+      className=" fixed top-0 bottom-0 left-0 right-0 flex justify-center items-center bg-black/30 z-50 h-screen border-inherit text-start"
     >
       <div
         onClick={(e) => e.stopPropagation()}
@@ -83,7 +83,7 @@ const ReopenDeal = () => {
             type="number"
             name="expectedValue"
             className="w-full border rounded-lg p-2"
-            value={formData.expectedValue || state.expectedValue}
+            value={formData?.expectedValue || state?.expectedValue}
             onChange={handleChange}
           />
 
@@ -92,16 +92,16 @@ const ReopenDeal = () => {
             label={"Expected Close Date"}
             type="date"
             name="expectedCloseDate"
-            value={formData.expectedCloseDate || state.expectedCloseDate}
+            value={formData?.expectedCloseDate || state?.expectedCloseDate}
             onChange={handleChange}
             className="w-full border rounded-lg p-2"
           />
-          {/* note */}
+          {/* notes */}
           <div className="border-inherit">
-            <label className="block text-sm font-medium">note</label>
+            <label className="block text-sm font-medium">notes</label>
             <textarea
-              name="note"
-              value={formData.note}
+              name="notes"
+              value={formData?.notes}
               onChange={handleChange}
               className="w-full border rounded-lg p-2 border-inherit"
               required

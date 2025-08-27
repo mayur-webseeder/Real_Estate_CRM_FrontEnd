@@ -29,6 +29,10 @@ import FollowupsManager from "../pages/Followups_management/FollowupsManager";
 import FollowupsDashboard from "../pages/Followups_management/FollowupsDashboard";
 import ReopenDeal from "../pages/Deals_Management/components/ReopenDeal";
 import DealDetails from "../pages/Deals_Management/DealDetails";
+import FolloupsList from "../pages/Followups_management/FolloupsList";
+import TodaysFolloups from "../pages/Followups_management/TodaysFolloups";
+import UpcommingFollowups from "../pages/Followups_management/UpcommingFollowups";
+import Analytics from "../pages/Followups_management/Analytics";
 function Router() {
   return (
     <Routes>
@@ -243,7 +247,41 @@ function Router() {
                 <FollowupsDashboard />
               </ProtectedRoute>
             }
-          />
+          >
+            {" "}
+            <Route
+              path=""
+              element={
+                <ProtectedRoute>
+                  <FolloupsList />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="todays"
+              element={
+                <ProtectedRoute>
+                  <TodaysFolloups />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="upcomming"
+              element={
+                <ProtectedRoute>
+                  <UpcommingFollowups />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="analytics"
+              element={
+                <ProtectedRoute>
+                  <Analytics />
+                </ProtectedRoute>
+              }
+            />
+          </Route>
         </Route>
       </Route>
     </Routes>

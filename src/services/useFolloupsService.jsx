@@ -7,6 +7,7 @@ import { useNavigate } from "react-router";
 import {
   resetFollowUpsForm,
   setFollowups,
+  setFollowUpsAnalytic,
   setFollowupsTotalPage,
   setIsFollowupsLoading,
 } from "../store/followupsSlice";
@@ -23,9 +24,10 @@ function useFolloupsService() {
       const result = await axiosInstance.post(`/folloups/add`, data);
       if (result.status == 201) {
         toast.success("folloups added successfuly");
+        dispatch(resetFollowUpsForm());
+        navigate(-1);
       }
-      navigate(-1);
-      dispatch(resetFollowUpsForm());
+
       return result.data;
     } catch (error) {
       console.error(error);
@@ -58,6 +60,41 @@ function useFolloupsService() {
       dispatch(setIsFollowupsLoading(false));
     }
   };
+  const fetchTodayFollowups = async () => {
+    dispatch(setIsFollowupsLoading(true));
+    try {
+      const result = await axiosInstance.get(`/folloups/today`);
+      if (result.status == 200) {
+        dispatch(setFollowups(result.data.followups));
+      }
+
+      return result.data;
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to get lead folloups");
+      throw error;
+    } finally {
+      dispatch(setIsFollowupsLoading(false));
+    }
+  };
+  const fetchUpcommingFollowups = async () => {
+    dispatch(setIsFollowupsLoading(true));
+    try {
+      const result = await axiosInstance.get(`/folloups/next`);
+      if (result.status == 200) {
+        dispatch(setFollowups(result.data.followups));
+      }
+
+      return result.data;
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to get lead folloups");
+      throw error;
+    } finally {
+      dispatch(setIsFollowupsLoading(false));
+    }
+  };
+
   const getFolloupsByLeadId = async (id) => {
     try {
       const result = await axiosInstance.get(`/folloups/lead/${id}`);
@@ -72,6 +109,7 @@ function useFolloupsService() {
       throw error;
     }
   };
+
   const deleteFolloups = async (id) => {
     try {
       const result = await axiosInstance.delete(`/folloups/${id}`);
@@ -100,12 +138,29 @@ function useFolloupsService() {
       throw error;
     }
   };
+  const fetchFollowupsAnalysis = async () => {
+    dispatch(setIsFollowupsLoading(true));
+    try {
+      const result = await axiosInstance.get("/folloups/analytics");
+      if (result.status == 200) {
+        dispatch(setFollowUpsAnalytic(result.data));
+      }
+      return result.data;
+    } catch (error) {
+      toast.error("Failed to fetch analysis");
+    } finally {
+      dispatch(setIsFollowupsLoading(false));
+    }
+  };
   return {
     addFolloups,
     getFolloupsByLeadId,
     fetchFollowups,
     deleteFolloups,
     updateFolloups,
+    fetchFollowupsAnalysis,
+    fetchTodayFollowups,
+    fetchUpcommingFollowups,
   };
 }
 

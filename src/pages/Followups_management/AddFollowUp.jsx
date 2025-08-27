@@ -31,8 +31,7 @@ function AddFollowUp() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    await addFolloups(followUpFormData);
+    await addFolloups({ ...followUpFormData, leadId });
   };
 
   const handleClose = () => {

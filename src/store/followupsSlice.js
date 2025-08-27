@@ -1,8 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 export const defaultFollowUpFormData = {
-  leadId: "",
-  createdBy: "",
   title: "",
   description: "",
   followupsDate: "",
@@ -10,6 +8,7 @@ export const defaultFollowUpFormData = {
   status: "pending",
   priority: "medium",
   reminderSent: false,
+  assignedTo: "",
 };
 
 const initialState = {
@@ -22,6 +21,7 @@ const initialState = {
   limit: 10,
   assignedTo: "",
   status: "",
+  followUpsAnalytic: {},
 };
 
 const followUpsSlice = createSlice({
@@ -52,6 +52,9 @@ const followUpsSlice = createSlice({
     setIsfollowupSubmitting: (state, action) => {
       state.isFollowupSubmitting = action.payload;
     },
+    setFollowUpsAnalytic: (state, action) => {
+      state.followUpsAnalytic = action.payload;
+    },
   },
 });
 
@@ -64,6 +67,7 @@ export const {
   setFolloupsAssginedTo,
   setFolloupsStatus,
   setIsfollowupSubmitting,
+  setFollowUpsAnalytic,
 } = followUpsSlice.actions;
 
 export default followUpsSlice.reducer;

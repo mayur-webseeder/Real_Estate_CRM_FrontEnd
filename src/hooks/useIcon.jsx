@@ -20,9 +20,13 @@ import {
   FaIdeal,
   FaDollarSign,
   FaRupeeSign,
+  FaArrowUp,
+  FaArrowDown,
 } from "react-icons/fa6";
 import {
   BsArchive,
+  BsArrowDown,
+  BsArrowUp,
   BsBell,
   BsCurrencyRupee,
   BsEye,
@@ -49,14 +53,20 @@ import { ImClock, ImInfo, ImSpinner6 } from "react-icons/im";
 import { TbArchive, TbArchiveOff, TbUserDollar } from "react-icons/tb";
 import { CiEdit } from "react-icons/ci";
 import { RiDragDropLine } from "react-icons/ri";
-
+import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+import { GoIssueReopened } from "react-icons/go";
+import { GrDocumentUpdate } from "react-icons/gr";
+import { HiMiniLockClosed } from "react-icons/hi2";
 const useIcon = () => {
   return {
     // A
     agent: <MdOutlineSupportAgent />,
     archive: <TbArchive />,
     unarchive: <TbArchiveOff />,
+    arrowup: <IoIosArrowDown />,
+    arrowdown: <IoIosArrowUp />,
     // B
+
     bell: <BsBell />,
 
     // C
@@ -102,6 +112,7 @@ const useIcon = () => {
     leads: <FaUsers />,
     logout: <MdLogout />,
     location: <FiMapPin />,
+    closed: <HiMiniLockClosed />,
 
     // M
     mail: <MdMailOutline />,
@@ -124,6 +135,8 @@ const useIcon = () => {
     // R
     rupee: <BsCurrencyRupee />,
     refresh: <MdRefresh />,
+    reopened: <GoIssueReopened />,
+
     // S
     sidebar: <BsLayoutTextSidebarReverse />,
     settings: <MdOutlineSettings />,
@@ -139,6 +152,7 @@ const useIcon = () => {
     user: <FiUser />,
     userPlus: <LuUserPlus />,
     upload: <LuCloudUpload />,
+    updated: <GrDocumentUpdate />,
 
     // V
     // --

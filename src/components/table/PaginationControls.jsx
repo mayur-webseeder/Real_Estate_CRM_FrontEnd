@@ -17,7 +17,7 @@ const PaginationControls = ({
         Previous
       </button>
       <span>
-        Page {page} of {totalPages}
+        Page {totalPages ? page : 0} of {totalPages}
       </span>
       <button
         onClick={onNext}
