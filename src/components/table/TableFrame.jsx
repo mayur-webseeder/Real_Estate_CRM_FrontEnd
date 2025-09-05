@@ -11,7 +11,7 @@ const TableFrame = ({
   children,
 }) => {
   return (
-    <div className={`${className} overflow-x-auto border-inherit`}>
+    <div className={`${className} overflow-x-auto border-inherit  `}>
       <table className="min-w-full border-inherit rounded-xl h-full">
         <thead className="border-inherit ">
           <tr className="bg-gray-50 border-b border-inherit">

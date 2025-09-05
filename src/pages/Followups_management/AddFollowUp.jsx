@@ -41,6 +41,7 @@ function AddFollowUp() {
 
   return (
     <FollowupFormModel
+      heading={"Add Follow-Up"}
       handleChange={handleChange}
       handleClose={handleClose}
       data={followUpFormData}

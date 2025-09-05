@@ -45,7 +45,7 @@ const DealDetails = () => {
         title={deal?.property?.title || "Deal Details"}
         subTitle={<p className="">Deal ID: #{dealId}</p>}
       >
-        {" "}
+        <LinkBtn className={"border p-2"}>Add Followup</LinkBtn>
         <span
           className={`inline-flex px-4 py-2 rounded-full text-sm font-semibold ${getStageColor(
             deal?.stage

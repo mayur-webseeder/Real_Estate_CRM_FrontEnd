@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { LineChart, PieChart } from "@mui/x-charts";
 import { Card, Typography, CircularProgress } from "@mui/material";
 import { useSelector } from "react-redux";
+import WrapperContainer from "../../components/WrapperContainer";
 
 export default function Analytics() {
   const followUpsAnalytic = useSelector(
@@ -18,9 +19,9 @@ export default function Analytics() {
     );
 
   return (
-    <div className="">
+    <div className=" border-inherit space-y-4">
       {/* Pie Chart for Status Distribution */}
-      <Card style={{ marginBottom: 24, padding: 16 }}>
+      <WrapperContainer className={"p-6"}>
         <Typography variant="h6" gutterBottom>
           Follow-ups Status Distribution
         </Typography>
@@ -43,10 +44,10 @@ export default function Analytics() {
           ]}
           height={300}
         />
-      </Card>
+      </WrapperContainer>
 
       {/* Line Chart Trend */}
-      <Card style={{ marginTop: 24, padding: 16 }}>
+      <WrapperContainer className={"p-6"}>
         <Typography variant="h6" gutterBottom>
           Follow-ups Trend (Last 7 days)
         </Typography>
@@ -56,7 +57,7 @@ export default function Analytics() {
           series={[{ dataKey: "count", label: "Follow-ups" }]}
           height={300}
         />
-      </Card>
+      </WrapperContainer>
     </div>
   );
 }

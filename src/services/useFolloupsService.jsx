@@ -1,4 +1,3 @@
-import React from "react";
 import axiosInstance from "./axiosInstance";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,9 +12,10 @@ import {
 } from "../store/followupsSlice";
 
 function useFolloupsService() {
-  const { page, followUps, status, assignedTo } = useSelector(
-    (state) => state.followups
-  );
+  const page = useSelector((state) => state.followups.page);
+  const followups = useSelector((state) => state.followups.followups);
+  const status = useSelector((state) => state.followups.status);
+  const assignedTo = useSelector((state) => state.followups.assignedTo);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -80,9 +80,9 @@ function useFolloupsService() {
   const fetchUpcommingFollowups = async () => {
     dispatch(setIsFollowupsLoading(true));
     try {
-      const result = await axiosInstance.get(`/folloups/next`);
+      const result = await axiosInstance.get(`/folloups/upcomming`);
       if (result.status == 200) {
-        dispatch(setFollowups(result.data.followups));
+        dispatch(setFollowups(result.data));
       }
 
       return result.data;
@@ -114,7 +114,7 @@ function useFolloupsService() {
     try {
       const result = await axiosInstance.delete(`/folloups/${id}`);
       if (result.status == 200) {
-        const filter = followUps.filter((f) => f._id !== id);
+        const filter = followups.filter((f) => f._id !== id);
         dispatch(setFollowups(filter));
         toast.success(result.data.message);
       }
@@ -125,9 +125,9 @@ function useFolloupsService() {
       throw error;
     }
   };
-  const updateFolloups = async (id) => {
+  const updateFolloups = async ({ data, id }) => {
     try {
-      const result = await axiosInstance.put(`/folloups/${id}`);
+      const result = await axiosInstance.put(`/folloups/${id}`, data);
       if (result.status == 200) {
         toast.success("successfull update followups");
       }

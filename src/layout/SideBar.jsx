@@ -71,6 +71,13 @@ const links = [
     // chidrens: [{ stub: "/agent_management/add_agent", text: "Add Agent" }],
     state: { activeSection: "Followup Managment" },
   },
+  {
+    icon: "document",
+    stub: "/documents_management",
+    text: "Documents Managment",
+    // chidrens: [{ stub: "/agent_management/add_agent", text: "Add Agent" }],
+    state: { activeSection: "Documents Managment" },
+  },
 ];
 
 function SideBar() {

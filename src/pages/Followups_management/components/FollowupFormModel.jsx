@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import useIcon from "../../../hooks/useIcon";
 import CommonInput from "../../../components/input/CommonInput";
 import CommonSelect from "../../../components/input/CommonSelect";
@@ -16,25 +16,31 @@ function FollowupFormModel({
   handleChange,
   handleSubmit,
   data,
+  heading,
+  subHeading,
 }) {
   const icons = useIcon();
   const { fetchAllAgents } = useTeamService();
   const { agents } = useSelector((state) => state.team);
 
-  useEffect(() => {
+  const handleFetchAgents = useCallback(() => {
     fetchAllAgents();
   }, []);
+
+  useEffect(() => {
+    handleFetchAgents();
+  }, []);
   return (
-    <div className="border-inherit pb-10">
+    <div className=" space-y-6 border-inherit pb-10">
       {/* Header */}
       <CommonHeader className={" flex justify-between w-full border-inherit"}>
-        <div className=" flex justify-center items-center w-fit">
+        <div className=" flex justify-center items-center gap-3 w-fit">
           <div className="w-10 h-10 rounded-full bg-black/10 flex items-center justify-center backdrop-blur-sm">
             {icons["clock"]}
           </div>
           <div>
-            <h2 className="text-2xl font-bold">Add Follow-Up</h2>
-            <p className="text-sm">Schedule your next interaction</p>
+            <h2 className="text-2xl font-bold">{heading}</h2>
+            <p className="text-sm">{subHeading}</p>
           </div>
         </div>
         <div></div>
@@ -69,7 +75,7 @@ function FollowupFormModel({
               label="Follow-Up Date"
               name="followupsDate"
               type="date"
-              value={data.followupsDate}
+              value={data.followupsDate ? data.followupsDate.split("T")[0] : ""}
               onChange={handleChange}
               required
               disabled={isSubmitting}
@@ -77,9 +83,9 @@ function FollowupFormModel({
             <AuthorizedOnly>
               <CommonSelect
                 className={"py-2 px-4"}
-                label="AssinTo"
+                label="Assign To"
                 name="assignedTo"
-                value={data.assignedTo}
+                value={data.assignedTo._id || data.assignedTo}
                 onChange={handleChange}
                 disabled={isSubmitting}
                 options={agents?.map((ag) => ({

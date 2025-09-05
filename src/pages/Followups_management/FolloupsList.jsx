@@ -19,6 +19,7 @@ import LinkBtn from "../../components/buttons/LinkBtn";
 import PaginationControls from "../../components/table/PaginationControls";
 import ConfirmationBox from "../../components/utils/ConfirmationBox";
 import TableCell from "../../components/table/TableCell";
+import { formatDate } from "../../utils/formatedDate";
 
 function FolloupsList() {
   const {
@@ -26,7 +27,6 @@ function FolloupsList() {
     totalFollowupsPages,
     page,
     isFollowupsLoading,
-    limit,
     status,
     assignedTo,
   } = useSelector((state) => state.followups);
@@ -50,7 +50,8 @@ function FolloupsList() {
   }, [page, status, assignedTo]);
 
   const followupsColumns = [
-    { title: "Lead", key: "lead.name" },
+    { title: <input type="checkbox" />, key: "select" },
+    { title: "Lead", key: "leadName" },
     {
       title: "Follow-up Date",
       key: "dueDate",
@@ -87,7 +88,7 @@ function FolloupsList() {
       {" "}
       <div className="flex justify-between items-center border-inherit">
         <div className="bg-gradient-to-r from-blue-100 to-blue-50 px-4 py-2 rounded-lg text-blue-800 font-medium">
-          Total of {followups.length} followups found
+          Total of {followups?.length} followups found
         </div>
         <div className="border-inherit flex gap-4 items-center  w-fit">
           <AuthorizedOnly>
@@ -118,16 +119,20 @@ function FolloupsList() {
         </div>
       </div>
       {/* Table using TableFrame */}
-      <WrapperContainer>
+      <WrapperContainer className={"border-inherit"}>
         <TableFrame
           columns={followupsColumns}
           isLoading={isFollowupsLoading}
           emptyMessage="No folloups found"
+          className="border-inherit"
         >
           {followups?.map((followup) => (
             <TableRow>
+              <TableCell>
+                <input type="checkbox" name="" id="" />
+              </TableCell>
               <TableCell>{followup.lead.name}</TableCell>
-              <TableCell>{followup.followupsDate}</TableCell>
+              <TableCell>{formatDate(followup.followupsDate)}</TableCell>
               <TableCell>{followup.description}</TableCell>
               <TableCell>{followup.assignedTo.userName}</TableCell>
               <TableCell>
@@ -157,7 +162,11 @@ function FolloupsList() {
                 <CheckCircle className="text-green-600" />
               </button>
             )} */}
-                  <LinkBtn stub className={"text-blue-600"}>
+                  <LinkBtn
+                    stub={`update/${followup._id}`}
+                    state={followup}
+                    className={"text-blue-600"}
+                  >
                     {icons["edit"]}
                   </LinkBtn>
                   <CommonBtn

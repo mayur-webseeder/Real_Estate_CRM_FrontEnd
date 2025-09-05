@@ -11,34 +11,33 @@ import {
   MdOutlineSupportAgent,
   MdRefresh,
   MdSpaceDashboard,
-  MdUnarchive,
 } from "react-icons/md";
+
 import {
   FaLandmark,
   FaUsers,
   FaSpinner,
   FaIdeal,
   FaDollarSign,
-  FaRupeeSign,
-  FaArrowUp,
-  FaArrowDown,
 } from "react-icons/fa6";
+
 import {
-  BsArchive,
-  BsArrowDown,
-  BsArrowUp,
   BsBell,
+  BsCheck,
+  BsCheck2,
   BsCurrencyRupee,
   BsEye,
   BsLayoutTextSidebarReverse,
   BsPhone,
   BsPlus,
   BsSave,
+  BsShare,
   BsShield,
 } from "react-icons/bs";
+
 import { LuDot, LuUserPlus } from "react-icons/lu";
+
 import {
-  FiEdit,
   FiEyeOff,
   FiFileText,
   FiMapPin,
@@ -50,13 +49,18 @@ import { MdContactEmergency, MdDeleteOutline } from "react-icons/md";
 import { RiChatFollowUpLine } from "react-icons/ri";
 import { LuCloudUpload } from "react-icons/lu";
 import { ImClock, ImInfo, ImSpinner6 } from "react-icons/im";
-import { TbArchive, TbArchiveOff, TbUserDollar } from "react-icons/tb";
+import { TbArchive, TbArchiveOff } from "react-icons/tb";
 import { CiEdit } from "react-icons/ci";
 import { RiDragDropLine } from "react-icons/ri";
-import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+import {
+  IoIosArrowBack,
+  IoIosArrowDown,
+  IoIosArrowForward,
+  IoIosArrowUp,
+} from "react-icons/io";
 import { GoIssueReopened } from "react-icons/go";
-import { GrDocumentUpdate } from "react-icons/gr";
-import { HiMiniLockClosed } from "react-icons/hi2";
+import { GrDocument, GrDocumentUpdate } from "react-icons/gr";
+import { HiDocument, HiMiniLockClosed, HiShare } from "react-icons/hi2";
 const useIcon = () => {
   return {
     // A
@@ -74,6 +78,9 @@ const useIcon = () => {
     close: <MdClose />,
     clock: <ImClock />,
     calendar: <MdOutlineDateRange />,
+    closed: <HiMiniLockClosed />,
+    check: <BsCheck2 />,
+
     // D
     dashboardFi: <MdSpaceDashboard />,
     delete: <MdDeleteOutline />,
@@ -82,6 +89,7 @@ const useIcon = () => {
     deal: <FaIdeal />,
     drag: <RiDragDropLine />,
     dollar: <FaDollarSign />,
+    document: <HiDocument />,
 
     // E
     eyeOff: <FiEyeOff />,
@@ -108,11 +116,10 @@ const useIcon = () => {
     // --
 
     // L
-    // --
     leads: <FaUsers />,
     logout: <MdLogout />,
     location: <FiMapPin />,
-    closed: <HiMiniLockClosed />,
+    leftArrow: <IoIosArrowBack />,
 
     // M
     mail: <MdMailOutline />,
@@ -136,7 +143,7 @@ const useIcon = () => {
     rupee: <BsCurrencyRupee />,
     refresh: <MdRefresh />,
     reopened: <GoIssueReopened />,
-
+    rightArrow: <IoIosArrowForward />,
     // S
     sidebar: <BsLayoutTextSidebarReverse />,
     settings: <MdOutlineSettings />,
@@ -144,6 +151,7 @@ const useIcon = () => {
     save: <BsSave />,
     spinner1: <FaSpinner className=" animate-spin" />,
     spinner2: <ImSpinner6 className=" animate-spin" />,
+    share: <HiShare />,
 
     // T
     trendingUp: <FiTrendingUp />,

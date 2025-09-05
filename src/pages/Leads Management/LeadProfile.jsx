@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import {
   User,
-  Phone,
   Mail,
   Calendar,
   MapPin,
@@ -101,7 +100,7 @@ const LeadsProfile = () => {
             <div>
               <h1 className="text-2xl font-bold text-gray-900">{lead?.name}</h1>
               <p className="text-gray-500 text-sm font-medium">
-                ID: {lead?._id?.slice(-8).toUpperCase()}
+                ID: {lead?.voucherId}
               </p>
             </div>
           </div>
@@ -110,7 +109,7 @@ const LeadsProfile = () => {
         <LinkBtn
           stub={"/leads_management/edit_leads"}
           action={() => dispatch(setLeadsFormData(lead))}
-          className="flex items-center gap-2 px-5 py-2.5 bg-white text-gray-700 border border-gray-200 rounded-xl hover:bg-gray-50 hover:border-gray-300 transition-all duration-200 font-medium shadow-sm"
+          className="flex items-center gap-2 px-5 py-2.5  text-gray-700 border border-gray-200 rounded-xl hover:bg-gray-50 hover:border-gray-300 transition-all duration-200 font-medium shadow-sm"
         >
           <Edit2 className="w-4 h-4" />
           Edit Lead
@@ -122,7 +121,7 @@ const LeadsProfile = () => {
           {/* Main Content */}
           <div className="xl:col-span-3 space-y-8 border-inherit">
             {/* Contact Information */}
-            <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
+            <div className=" rounded-2xl p-8 shadow-sm border border-inherit">
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center">
                   <User className="w-5 h-5 text-blue-600" />
@@ -132,7 +131,7 @@ const LeadsProfile = () => {
                 </h2>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 border-inherit">
                 <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-xl">
                   <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
                     <span className="text-green-600"> {icons["phone"]}</span>
@@ -172,7 +171,7 @@ const LeadsProfile = () => {
             </div>
 
             {/* Interested Properties */}
-            <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
+            <div className=" rounded-2xl p-8 shadow-sm border border-inherit">
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-10 h-10 bg-emerald-100 rounded-xl flex items-center justify-center">
                   <Building className="w-5 h-5 text-emerald-600" />
@@ -186,7 +185,7 @@ const LeadsProfile = () => {
                 {lead?.interestedIn?.map((property) => (
                   <div
                     key={property._id}
-                    className="group border border-gray-200 rounded-2xl p-6 hover:border-blue-200 hover:shadow-md transition-all duration-300 bg-gradient-to-r from-white to-gray-50/30"
+                    className="group border border-inherit rounded-2xl p-6 hover:border-blue-200 hover:shadow-md transition-all duration-300 bg-gradient-to-r from-white to-gray-50/30"
                   >
                     <div className="flex justify-between items-start mb-4">
                       <div>
@@ -255,11 +254,11 @@ const LeadsProfile = () => {
                 </CommonBtn>
               </div>
 
-              <div className="space-y-4">
+              <div className="space-y-4 border-inherit">
                 {suggestedPropertiesPreview.map((property) => (
                   <div
                     key={property._id}
-                    className="group border border-gray-200 rounded-xl p-4 hover:border-amber-200 hover:shadow-md transition-all duration-300 bg-gradient-to-r from-white to-amber-50/20"
+                    className="group border border-inherit rounded-xl p-4 hover:border-blue-200 hover:shadow-md transition-all duration-300 bg-gradient-to-r from-white to-amber-50/20"
                   >
                     <div className="flex justify-between items-start">
                       <div className="flex-1">
@@ -325,18 +324,18 @@ const LeadsProfile = () => {
             </div>
 
             {/* Follow-ups */}
-            <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 bg-indigo-100 rounded-xl flex items-center justify-center">
+            <div className=" rounded-2xl p-8 shadow-sm border border-inherit">
+              <div className="flex items-center gap-3 mb-6 border-inherit">
+                <div className="w-10 h-10 bg-indigo-100 rounded-xl flex items-center justify-center border-inherit">
                   <Clock className="w-5 h-5 text-indigo-600" />
                 </div>
                 <h2 className="text-xl font-bold text-gray-900">Follow-ups</h2>
               </div>
 
-              <div className="space-y-6">
+              <div className="space-y-6 border-inherit">
                 <CommonBtn
                   action={() => handleAddFolloup(lead._id)}
-                  className="w-full border-2 border-dashed border-gray-300 rounded-2xl p-6 text-gray-500 hover:border-blue-400 hover:text-blue-600 hover:bg-blue-50/50 transition-all duration-300 flex items-center justify-center group"
+                  className="w-full border-2 border-dashed bborder-inherit rounded-2xl p-6 text-gray-500 hover:border-blue-400 hover:text-blue-600 hover:bg-blue-50/50 transition-all duration-300 flex items-center justify-center group"
                 >
                   <Plus className="w-5 h-5 mr-3 group-hover:scale-110 transition-transform" />
                   <span className="font-medium">Schedule New Follow-up</span>
@@ -345,7 +344,7 @@ const LeadsProfile = () => {
                 {leadFolloups?.map((folloup) => (
                   <div
                     key={folloup._id}
-                    className="bg-gradient-to-r from-white to-blue-50/30 rounded-2xl p-6 border border-gray-200 hover:shadow-lg hover:border-blue-200 transition-all duration-300"
+                    className="bg-gradient-to-r from-white to-blue-50/30 rounded-2xl p-6 border border-inherit hover:shadow-lg hover:border-blue-200 transition-all duration-300"
                   >
                     <div className="space-y-4">
                       <div className="flex justify-between items-start">
@@ -406,8 +405,8 @@ const LeadsProfile = () => {
                 </h2>
               </div>
 
-              <div className="space-y-4">
-                <div>
+              <div className="space-y-4 border-inherit">
+                <div className="border-inherit">
                   <p className="text-sm font-medium text-gray-500 mb-2">
                     Current Stage
                   </p>
@@ -419,7 +418,7 @@ const LeadsProfile = () => {
                     {lead?.stage?.replace("_", " ")}
                   </span>
                 </div>
-                <div>
+                <div className="border-inherit">
                   <p className="text-sm font-medium text-gray-500 mb-2">
                     Status
                   </p>
@@ -435,12 +434,12 @@ const LeadsProfile = () => {
             </div>
 
             {/* Next Follow-up */}
-            <div className="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-2xl p-6 text-white shadow-lg">
+            <div className="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-2xl p-6 text-white shadow-lg border-inherit">
               <div className="flex items-center gap-3 mb-4">
                 <Star className="w-6 h-6" />
                 <h2 className="text-lg font-bold">Next Follow-up</h2>
               </div>
-              <div className="bg-white/20 rounded-xl p-4 backdrop-blur-sm text-wrap">
+              <div className="/20 rounded-xl p-4 backdrop-blur-sm text-wrap">
                 <p className="text-blue-100 text-sm mb-1">Scheduled for</p>
                 <p className="text-white font-bold text-sm">
                   No upcoming follow-ups
@@ -451,7 +450,7 @@ const LeadsProfile = () => {
             {/* Assigned Agent */}
             <AuthorizedOnly>
               <div className=" rounded-2xl p-6 shadow-sm border  border-inherit">
-                <div className="flex items-center gap-3 mb-4">
+                <div className="flex items-center gap-3 mb-4 border-inherit">
                   <div className="w-10 h-10 bg-teal-100 rounded-xl flex items-center justify-center">
                     <Users className="w-5 h-5 text-teal-600" />
                   </div>
@@ -460,7 +459,7 @@ const LeadsProfile = () => {
                   </h2>
                 </div>
 
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 border-inherit">
                   <div className=" w-fit  p-1 bg-gradient-to-r from-teal-400 to-blue-500 rounded-2xl flex items-center justify-center text-white text-sm font-bold">
                     {lead?.assignedTo?.userName
                       ?.split(" ")
@@ -480,7 +479,7 @@ const LeadsProfile = () => {
             </AuthorizedOnly>
 
             {/* Timeline */}
-            <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+            <div className=" rounded-2xl p-6 shadow-sm border border-inherit">
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-10 h-10 bg-rose-100 rounded-xl flex items-center justify-center">
                   <Calendar className="w-5 h-5 text-rose-600" />
